@@ -17,7 +17,7 @@ module.exports = {
       status: {
         type: Sequelize.STRING(20),
         allowNull: false,
-        defaultValue: "Ativo",
+        defaultValue: "ativo",
       },
       createdAt: { type: Sequelize.DATE, allowNull: false },
       updatedAt: { type: Sequelize.DATE, allowNull: false },
