@@ -2,11 +2,12 @@
 const express = require("express");
 const { config } = require("dotenv");
 config();
-
+const rotas = require('./routes/index')
 // classe server
 class Server {
   // constructor de classe
   constructor(app = express()) {
+    this.router(app);
     this.database();
     this.initializeServer(app);
   }
@@ -19,6 +20,11 @@ class Server {
     } catch (error) {
       console.error("Não foi possível conectar com o banco de dados:", error.message);
     }
+  }
+  //router
+  async router(app) {
+    app.use(express.json());
+    app.use(rotas);
   }
   // start server
   async initializeServer(app) {
