@@ -1,7 +1,6 @@
-const usuariosRoutes = require('express').Router();
+const usuariosRoutes = require("express").Router();
+const { store } = require("../../controllers/usuarios.controller");
 
-usuariosRoutes.get('/api/usuarios', async (req, res) => 
-res.json({ message: 'Endpoint usuarios' })
-);
+usuariosRoutes.post("/api/usuarios", store);
 
 module.exports = usuariosRoutes;

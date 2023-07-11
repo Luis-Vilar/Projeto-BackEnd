@@ -12,7 +12,7 @@ module.exports = {
       data_nascimento: { type: Sequelize.DATE, allowNull: false },
       cpf: { type: Sequelize.STRING(11), allowNull: false, unique: true },
       telefone: { type: Sequelize.STRING(20), allowNull: true },
-      email: { type: Sequelize.STRING(20), allowNull: false, unique: true },
+      email: { type: Sequelize.STRING(100), allowNull: false, unique: true },
       senha: { type: Sequelize.STRING(20), allowNull: false },
       status: {
         type: Sequelize.STRING(20),

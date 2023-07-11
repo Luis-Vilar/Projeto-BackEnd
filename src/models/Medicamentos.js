@@ -1,9 +1,6 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/connection");
-const Usuarios = require("./Usuarios");
-const UsuarioMedicamento = require("./UsuarioMedicamento");
-const Depositos = require("./Depositos");
-const MedicamentoDeposito = require("./MedicamentoDeposito");
+
 
 
 const Medicamentos = connection.define(
@@ -80,8 +77,7 @@ const Medicamentos = connection.define(
   }
 );
 
-Medicamentos.hasMany(Usuarios, { through: UsuarioMedicamento });
-Medicamentos.hasMany(Depositos, { through: MedicamentoDeposito });
+
 
 
 module.exports = Medicamentos;
