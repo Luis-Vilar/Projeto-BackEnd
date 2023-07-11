@@ -1,5 +1,5 @@
 //função para validar senha
-function validaSenha(senha) {
+async function validaSenha(senha) {
   const regex = /^(?=.*[A-Z])(?=.*[0-9])(?=.*\W)[a-zA-Z0-9\W]{8,}$/;
   if (!regex.test(senha)) {
     throw new Error(
@@ -9,7 +9,7 @@ function validaSenha(senha) {
   return regex.test(senha);
 }
 //funçao para validar email
-function validaEmail(email) {
+async function validaEmail(email) {
   // este regex e para validar email com domínio .com, .br, .net, etc
   const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
   if (!regex.test(email)) {
@@ -19,5 +19,13 @@ function validaEmail(email) {
   }
   return regex.test(email);
 }
-
-module.exports = { validaSenha, validaEmail };
+// funçao para verificar se o valor esta no banco de dados
+async function estaNaBD(modelo, columna, valor) {
+  const achado = await modelo.findOne({
+    where: {
+      [columna]: valor
+    }
+    });
+    return achado ? true : false;
+}
+module.exports = { validaSenha, validaEmail,  estaNaBD };

@@ -7,10 +7,7 @@ const UsuarioMedicamento = require("./UsuarioMedicamento");
 const Usuarios = connection.define(
   "usuarios",
   {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-    },
+   
     nome: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -101,7 +98,7 @@ const Usuarios = connection.define(
   }
 )
 
-Usuarios.hasMany(Medicamentos, { through: UsuarioMedicamento });
+Usuarios.belongsToMany(Medicamentos, { through: UsuarioMedicamento });
 
 
 module.exports = Usuarios;

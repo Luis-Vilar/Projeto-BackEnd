@@ -82,7 +82,6 @@ const Depositos = connection.define(
   }
 );
 
-Depositos.hasMany(Medicamentos, { through: MedicamentoDeposito });
-Depositos.belongsTo(Usuarios, { foreignKey: "usuario_id" });
+
 
 module.exports = Depositos;
