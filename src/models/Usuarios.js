@@ -1,10 +1,16 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/connection");
 const { validaSenha, validaEmail } = require("../libs/validators");
+const Medicamentos = require("./Medicamentos");
+const UsuarioMedicamento = require("./UsuarioMedicamento");
 
 const Usuarios = connection.define(
   "usuarios",
   {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+    },
     nome: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -93,6 +99,9 @@ const Usuarios = connection.define(
     paranoid: true,
     timestamps: true,
   }
-);
+)
+
+Usuarios.hasMany(Medicamentos, { through: UsuarioMedicamento });
+
 
 module.exports = Usuarios;
