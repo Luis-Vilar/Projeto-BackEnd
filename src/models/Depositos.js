@@ -1,8 +1,9 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/connection");
-const Usuarios = require("./Usuarios");
-const Medicamentos = require("./Medicamentos");
 const { validaEmail } = require("../libs/validators");
+const Medicamentos = require("./Medicamentos");
+const MedicamentoDeposito = require("./MedicamentoDeposito");
+const Usuarios = require("./Usuarios");
 
 const Depositos = connection.define(
   "depositos",
@@ -10,8 +11,6 @@ const Depositos = connection.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
     },
     usuario_id: {
       type: Sequelize.INTEGER,
@@ -46,34 +45,15 @@ const Depositos = connection.define(
         validaEmail,
       },
     },
-    endereco: {
-      type: Sequelize.JSON,
-      allowNull: false,
-      validate: {
-        hasEndereco(value) {
-          if (!value.cep || typeof value.cep !== "string") {
-            throw new Error("O endereço deve ter um CEP válido (string)");
-          }
-          if (!value.logradouro || typeof value.logradouro !== "string") {
-            throw new Error(
-              "O endereço deve ter um logradouro válido (string)"
-            );
-          }
-          if (!value.numero || typeof value.numero !== "string") {
-            throw new Error("O endereço deve ter um número válido (string)");
-          }
-          if (!value.bairro || typeof value.bairro !== "string") {
-            throw new Error("O endereço deve ter um bairro válido (string)");
-          }
-          if (!value.cidade || typeof value.cidade !== "string") {
-            throw new Error("O endereço deve ter uma cidade válida (string)");
-          }
-          if (!value.estado || typeof value.estado !== "string") {
-            throw new Error("O endereço deve ter um estado válido (string)");
-          }
-        },
-      },
-    },
+    cep: { type: Sequelize.STRING(20), allowNull: false },
+    logradouro: { type: Sequelize.STRING(20), allowNull: false },
+    numero: { type: Sequelize.STRING(20), allowNull: false },
+    bairro: { type: Sequelize.STRING(20), allowNull: false },
+    cidade: { type: Sequelize.STRING(20), allowNull: false },
+    estado: { type: Sequelize.STRING(20), allowNull: false },
+    complemento: { type: Sequelize.STRING(20), allowNull: true },
+    latitude: { type: Sequelize.STRING(20), allowNull: true },
+    longitude: { type: Sequelize.STRING(20), allowNull: true },
     status: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -102,6 +82,7 @@ const Depositos = connection.define(
   }
 );
 
+Depositos.hasMany(Medicamentos, { through: MedicamentoDeposito });
 Depositos.belongsTo(Usuarios, { foreignKey: "usuario_id" });
 
 module.exports = Depositos;

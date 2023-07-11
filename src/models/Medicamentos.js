@@ -1,7 +1,10 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/connection");
-const Depositos = require("./Depositos");
 const Usuarios = require("./Usuarios");
+const UsuarioMedicamento = require("./UsuarioMedicamento");
+const Depositos = require("./Depositos");
+const MedicamentoDeposito = require("./MedicamentoDeposito");
+
 
 const Medicamentos = connection.define(
   "medicamentos",
@@ -9,24 +12,6 @@ const Medicamentos = connection.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
-      autoIncrement: true,
-      allowNull: false,
-    },
-    usuario_id: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: "usuarios",
-        key: "id",
-      },
-    },
-    deposito_id: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: "depositos",
-        key: "id",
-      },
     },
     nome_medicamento: {
       type: Sequelize.STRING,
@@ -95,7 +80,8 @@ const Medicamentos = connection.define(
   }
 );
 
-Medicamentos.belongsTo(Usuarios, { foreignKey: "usuario_id" });
-Medicamentos.belongsTo(Depositos, { foreignKey: "deposito_id" });
+Medicamentos.hasMany(Usuarios, { through: UsuarioMedicamento });
+Medicamentos.hasMany(Depositos, { through: MedicamentoDeposito });
+
 
 module.exports = Medicamentos;

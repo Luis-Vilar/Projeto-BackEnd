@@ -10,21 +10,30 @@ module.exports = {
       sobrenome: { type: Sequelize.STRING(20), allowNull: false },
       genero: { type: Sequelize.STRING(20), allowNull: true },
       data_nascimento: { type: Sequelize.DATE, allowNull: false },
-      cpf: { type: Sequelize.STRING(11), allowNull: false },
+      cpf: { type: Sequelize.STRING(11), allowNull: false, unique: true },
       telefone: { type: Sequelize.STRING(20), allowNull: true },
-      email: { type: Sequelize.STRING(20), allowNull: false },
+      email: { type: Sequelize.STRING(20), allowNull: false, unique: true },
       senha: { type: Sequelize.STRING(20), allowNull: false },
       status: {
         type: Sequelize.STRING(20),
         allowNull: false,
         defaultValue: "ativo",
       },
-      createdAt: { type: Sequelize.DATE, allowNull: false },
-      updatedAt: { type: Sequelize.DATE, allowNull: false },
-      deletedAt: { type: Sequelize.DATE, allowNull: true },
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: false
+      },
+      deleted_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
     },{
-      timestamps : true,
       paranoid : true,
+      underscored : true,
     });
   },
 
