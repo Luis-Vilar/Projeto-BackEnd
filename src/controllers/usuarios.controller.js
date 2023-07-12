@@ -144,4 +144,45 @@ module.exports = {
       return res.json({ message: error.message });
     }
   },
+  async senha(req, res) {
+    const { senha } = req.body;
+    const paramsId = req.params.id;
+    const token = req.headers.authorization;
+    try {
+      //verificar se o token da requisição  é valido
+      await verificarToken(token);
+      //verificar se a senha foi informada na requisição
+      if (!senha) {
+        res.status(400);
+        throw new Error("Senha não informada");
+      }
+      //tem algum usuario com esse id na bd?
+      if (!(await estaNaBD(Usuarios, "id", paramsId))) {
+        res.status(404);
+        throw new Error("Usuário não encontrado");
+      }
+      //verificar se o paramsId é o mesmo do token para impedir que um usuario altere a senha de outro
+      const payload = await verificarToken(token);
+      if (payload.id !== Number(paramsId)) {
+        res.status(401);
+        throw new Error("Sem permissão para atualizar este usuário");
+      }
+      //atualizar o status do usuario na base de dados
+      const user = await Usuarios.update(
+        { senha },
+        {
+          where: {
+            id: paramsId,
+          },
+        }
+      );
+      //verificar se o usuario foi atualizado
+      if (user) {
+        res.sendStatus(204);
+      }
+      // caso algum erro ocorra devolvemos o erro para o cliente
+    } catch (error) {
+      res.json({ message: error.message });
+    }
+  },
 };
