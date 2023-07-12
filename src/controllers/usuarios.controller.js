@@ -185,4 +185,38 @@ module.exports = {
       res.json({ message: error.message });
     }
   },
+  async index(req, res) {
+    const token = req.headers.authorization;
+    try {
+      await verificarToken(token);
+      const paramsId = req.params.id;
+      //tem algum usuario com esse id na bd?
+      if (!(await estaNaBD(Usuarios, "id", paramsId))) {
+        res.status(404);
+        throw new Error("Usuário não encontrado");
+      }
+      const user = await Usuarios.findByPk(paramsId, {
+        attributes: [
+          "id",
+          "cpf",
+          "nome",
+          "sobrenome",
+          "genero",
+          "data_nascimento",
+          "email",
+          "telefone",
+          "status",
+          "created_at",
+          "updated_at",
+        
+        ],
+      });
+      if (user) {
+        res.status(200).json(user);
+      }
+    } catch (error) {
+      res.json({ message: error.message });
+    }
+  },
 };
+
