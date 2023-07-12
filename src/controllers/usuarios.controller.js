@@ -99,10 +99,47 @@ module.exports = {
       if (user) {
         return res.status(202).json({
           message: `Usuário ${paramsId} atualizado com sucesso`,
-          updated : novosDados
+          updated: novosDados,
         });
       }
       // caso algum erro ocorra devolvemos o erro para o cliente
+    } catch (error) {
+      return res.json({ message: error.message });
+    }
+  },
+  async status(req, res) {
+    const status = req.body.status;
+    const paramsId = req.params.id;
+    const token = req.headers.authorization;
+    try {
+      await verificarToken(token);
+      if ((status !== "ativo" && status !== "inativo") || !status) {
+        res.status(400);
+        let msg = !status
+          ? "Status não informado"
+          : "Status informado inválido";
+        throw new Error(msg);
+      }
+      //tem algum usuario com esse id na bd?
+      if (!(await estaNaBD(Usuarios, "id", paramsId))) {
+        res.status(404);
+        throw new Error("Usuário não encontrado");
+      }
+      //atualizar o status do usuario na base de dados
+      const user = await Usuarios.update(
+        { status },
+        {
+          where: {
+            id: paramsId,
+          },
+        }
+      );
+
+      if (user) {
+        res.status(200).json({
+          message: `Usuario com id ${paramsId} atualizado com o status : ${status}`,
+        });
+      }
     } catch (error) {
       return res.json({ message: error.message });
     }
