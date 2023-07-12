@@ -1,5 +1,6 @@
-const { sign } = require("jsonwebtoken");
+const { sign, verify } = require("jsonwebtoken");
 const { config } = require("dotenv");
+const e = require("express");
 config();
 
 async function validarBody(body) {
@@ -64,8 +65,19 @@ async function gerarToken(Usuarios, body, res) {
     throw new Error("Falha na autenticação");
   }
 }
+async function verificarToken(token) {
+  try {
+    const payload = verify(token, process.env.JWT_KEY);
+    return payload;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+}
+
 module.exports = {
   validarBody,
   informoEmailESenha,
   gerarToken,
+  verificarToken,
 };
+
