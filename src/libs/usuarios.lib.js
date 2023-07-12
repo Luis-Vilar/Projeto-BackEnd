@@ -23,6 +23,14 @@ async function validarBody(body) {
   }
   return true;
 }
-module.exports = {
-    validarBody
+async function informoEmailESenha(body) {
+  const { email, senha } = body;
+  if (!email || !senha) {
+    return false;
+  }
+  return true;
 }
+module.exports = {
+  validarBody,
+  informoEmailESenha,
+};
