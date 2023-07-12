@@ -1,13 +1,12 @@
 const Usuarios = require("../models/Usuarios.js");
-const { config } = require("dotenv");
 const { estaNaBD } = require("../libs/validators.js");
 const {
   validarBody,
   informoEmailESenha,
   gerarToken,
+  verificarToken,
 } = require("../libs/usuarios.lib.js");
-const { sign } = require("jsonwebtoken");
-config();
+
 module.exports = {
   async store(req, res) {
     try {
@@ -52,6 +51,57 @@ module.exports = {
       }
       //gerar token
       await gerarToken(Usuarios, body, res);
+      // caso algum erro ocorra devolvemos o erro para o cliente
+    } catch (error) {
+      return res.json({ message: error.message });
+    }
+  },
+  async update(req, res) {
+    try {
+      const body = req.body;
+      const paramsId = req.params.id;
+      const token = req.headers.authorization;
+      //verificar se esta o token na requisição
+      if (!token) {
+        res.status(401);
+        throw new Error("Token não informado");
+      }
+      //verificar se o token da requisição  é valido
+      const payload = await verificarToken(token);
+      if (!payload) {
+        res.status(401);
+        throw new Error("Token inválido");
+      }
+      //verificar se o id do usuario é o mesmo do token
+      if (payload.id !== Number(paramsId)) {
+        res.status(401);
+        throw new Error("Sem permissão para atualizar este usuário");
+      }
+      //apenas atualizar os dados que forem enviados e so permitir atualizar nome, sobrenome, genero e telefone
+      const { nome, sobrenome, genero, telefone } = body;
+      const novosDados = {};
+      if (nome) novosDados.nome = nome;
+      if (sobrenome) novosDados.sobrenome = sobrenome;
+      if (genero) novosDados.genero = genero;
+      if (telefone) novosDados.telefone = telefone;
+      //verificar se  tem algum dado para atualizar
+      if (Object.keys(novosDados).length === 0) {
+        res.status(400);
+        throw new Error("Nenhum dado para atualizar foi recebido");
+      }
+      //atualizar o usuario na base de dados
+      const user = await Usuarios.update(novosDados, {
+        where: {
+          id: paramsId,
+        },
+      });
+      //verificar se o usuario foi atualizado
+      if (user) {
+        return res.status(202).json({
+          message: `Usuário ${paramsId} atualizado com sucesso`,
+          updated : novosDados
+        });
+      }
       // caso algum erro ocorra devolvemos o erro para o cliente
     } catch (error) {
       return res.json({ message: error.message });
