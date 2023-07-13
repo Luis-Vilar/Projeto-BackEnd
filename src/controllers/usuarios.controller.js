@@ -4,7 +4,6 @@ const {
   validarBody,
   informoEmailESenha,
   gerarToken,
-  verificarToken,
 } = require("../libs/usuarios.lib.js");
 
 module.exports = {
@@ -60,20 +59,8 @@ module.exports = {
     try {
       const body = req.body;
       const paramsId = req.params.id;
-      const token = req.headers.authorization;
-      //verificar se esta o token na requisição
-      if (!token) {
-        res.status(401);
-        throw new Error("Token não informado");
-      }
-      //verificar se o token da requisição  é valido
-      const payload = await verificarToken(token);
-      if (!payload) {
-        res.status(401);
-        throw new Error("Token inválido");
-      }
-      //verificar se o id do usuario é o mesmo do token
-      if (payload.id !== Number(paramsId)) {
+      //verificar se o token da requisição  tras o mesmo id do usuario que esta sendo atualizado
+      if (req.payload.id !== Number(paramsId)) {
         res.status(401);
         throw new Error("Sem permissão para atualizar este usuário");
       }
@@ -87,7 +74,7 @@ module.exports = {
       //verificar se  tem algum dado para atualizar
       if (Object.keys(novosDados).length === 0) {
         res.status(400);
-        throw new Error("Nenhum dado para atualizar foi recebido");
+        throw new Error("Nenhum dado valido para atualizar foi recebido");
       }
       //atualizar o usuario na base de dados
       const user = await Usuarios.update(novosDados, {
@@ -95,24 +82,23 @@ module.exports = {
           id: paramsId,
         },
       });
-      //verificar se o usuario foi atualizado
+      //verificar se o usuario foi atualizado e devolver uma mensagem de sucesso
       if (user) {
         return res.status(202).json({
           message: `Usuário ${paramsId} atualizado com sucesso`,
           updated: novosDados,
         });
       }
-      // caso algum erro ocorra devolvemos o erro para o cliente
     } catch (error) {
+      // caso algum erro ocorra devolvemos o erro para o cliente
       return res.json({ message: error.message });
     }
   },
   async status(req, res) {
     const status = req.body.status;
     const paramsId = req.params.id;
-    const token = req.headers.authorization;
     try {
-      await verificarToken(token);
+      // so aceitar valores ativo ou inativo para o status e verificar se o status foi informado
       if ((status !== "ativo" && status !== "inativo") || !status) {
         res.status(400);
         let msg = !status
@@ -134,24 +120,22 @@ module.exports = {
           },
         }
       );
-
+      //verificar se o usuario foi atualizado e devolver uma mensagem de sucesso
       if (user) {
         res.status(200).json({
           message: `Usuario com id ${paramsId} atualizado com o status : ${status}`,
         });
       }
     } catch (error) {
+      // caso algum erro ocorra devolvemos o erro para o cliente
       return res.json({ message: error.message });
     }
   },
   async senha(req, res) {
     const { senha } = req.body;
     const paramsId = req.params.id;
-    const token = req.headers.authorization;
     try {
-      //verificar se o token da requisição  é valido
-      await verificarToken(token);
-      //verificar se a senha foi informada na requisição
+      //verificar se a senha foi informada
       if (!senha) {
         res.status(400);
         throw new Error("Senha não informada");
@@ -162,8 +146,7 @@ module.exports = {
         throw new Error("Usuário não encontrado");
       }
       //verificar se o paramsId é o mesmo do token para impedir que um usuario altere a senha de outro
-      const payload = await verificarToken(token);
-      if (payload.id !== Number(paramsId)) {
+      if (req.payload.id !== Number(paramsId)) {
         res.status(401);
         throw new Error("Sem permissão para atualizar este usuário");
       }
@@ -180,16 +163,15 @@ module.exports = {
       if (user) {
         res.sendStatus(204);
       }
-      // caso algum erro ocorra devolvemos o erro para o cliente
     } catch (error) {
+      // caso algum erro ocorra devolvemos o erro para o cliente
       res.json({ message: error.message });
     }
   },
   async index(req, res) {
-    const token = req.headers.authorization;
     try {
-      await verificarToken(token);
       const paramsId = req.params.id;
+
       //tem algum usuario com esse id na bd?
       if (!(await estaNaBD(Usuarios, "id", paramsId))) {
         res.status(404);
@@ -208,7 +190,6 @@ module.exports = {
           "status",
           "created_at",
           "updated_at",
-        
         ],
       });
       if (user) {
@@ -219,4 +200,3 @@ module.exports = {
     }
   },
 };
-
