@@ -82,6 +82,11 @@ const Depositos = connection.define(
   }
 );
 
+Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });
+Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });
+Medicamentos.hasMany(MedicamentoDeposito, { as: "stock" });
+Depositos.hasMany(MedicamentoDeposito, { as: "stock" });
 
+Depositos.belongsTo(Usuarios);
 
 module.exports = Depositos;

@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const connection = require("../database/connection");
 
+
 const MedicamentoDeposito = connection.define(
   "medicamento_deposito",
   {
@@ -14,11 +15,16 @@ const MedicamentoDeposito = connection.define(
       allowNull: false,
       references: { model: "medicamentos", key: "id" },
     },
+    quantidade: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
   },
   {
     paranoid: true,
     underscored: true,
   }
 );
+
 
 module.exports = MedicamentoDeposito;

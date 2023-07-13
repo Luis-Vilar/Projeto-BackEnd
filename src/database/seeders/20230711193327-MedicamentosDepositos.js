@@ -7,30 +7,39 @@ module.exports = {
       "medicamento_deposito",
       [
         {
-          deposito_id : 1,
-          medicamento_id : 3,
-          created_at : new Date("2021-07-11"),
-          updated_at : new Date("2021-07-11")
-        },    {
-          deposito_id : 2,
-          medicamento_id : 1,
-          created_at : new Date("2021-07-11"),
-          updated_at : new Date("2021-07-11")
-        },    {
-          deposito_id : 1,
-          medicamento_id : 2,
-          created_at : new Date("2021-07-11"),
-          updated_at : new Date("2021-07-11")
-        },    {
-          deposito_id : 3,
-          medicamento_id : 3,
-          created_at : new Date("2021-07-11"),
-          updated_at : new Date("2021-07-11")
-        },    {
-          deposito_id : 5,
-          medicamento_id : 3,
-          created_at : new Date("2021-07-11"),
-          updated_at : new Date("2021-07-11")
+          quantidade: 10,
+          deposito_id: 1,
+          medicamento_id: 3,
+          created_at: new Date("2021-07-11"),
+          updated_at: new Date("2021-07-11"),
+        },
+        {
+          quantidade: 10,
+          deposito_id: 2,
+          medicamento_id: 1,
+          created_at: new Date("2021-07-11"),
+          updated_at: new Date("2021-07-11"),
+        },
+        {
+          quantidade: 10,
+          deposito_id: 1,
+          medicamento_id: 2,
+          created_at: new Date("2021-07-11"),
+          updated_at: new Date("2021-07-11"),
+        },
+        {
+          quantidade: 10,
+          deposito_id: 3,
+          medicamento_id: 3,
+          created_at: new Date("2021-07-11"),
+          updated_at: new Date("2021-07-11"),
+        },
+        {
+          quantidade: 10,
+          deposito_id: 5,
+          medicamento_id: 3,
+          created_at: new Date("2021-07-11"),
+          updated_at: new Date("2021-07-11"),
         },
       ],
       {}

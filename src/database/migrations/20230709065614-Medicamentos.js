@@ -18,7 +18,6 @@ module.exports = {
         unidade_dosagem: { type: Sequelize.STRING(20), allowNull: false },
         tipo: { type: Sequelize.STRING(20), allowNull: false },
         preco_unitario: { type: Sequelize.FLOAT, allowNull: false },
-        quantidade: { type: Sequelize.INTEGER, allowNull: false },
         created_at: {
           type: Sequelize.DATE,
           allowNull: false,

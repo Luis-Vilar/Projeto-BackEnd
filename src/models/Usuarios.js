@@ -98,7 +98,8 @@ const Usuarios = connection.define(
   }
 )
 
-Usuarios.belongsToMany(Medicamentos, { through: UsuarioMedicamento });
+Medicamentos.belongsToMany(Usuarios, { through: UsuarioMedicamento });
+
 
 
 module.exports = Usuarios;

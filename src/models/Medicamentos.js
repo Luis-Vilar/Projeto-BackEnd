@@ -2,7 +2,6 @@ const Sequelize = require("sequelize");
 const connection = require("../database/connection");
 
 
-
 const Medicamentos = connection.define(
   "medicamentos",
   {
@@ -56,10 +55,6 @@ const Medicamentos = connection.define(
       type: Sequelize.FLOAT,
       allowNull: false,
     },
-    quantidade: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
     createdAt: {
       type: Sequelize.DATE,
       allowNull: false,
@@ -76,8 +71,6 @@ const Medicamentos = connection.define(
     timestamps: true,
   }
 );
-
-
 
 
 module.exports = Medicamentos;
