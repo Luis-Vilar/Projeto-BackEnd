@@ -1,5 +1,5 @@
 const Depositos = require("../models/Depositos");
-const { validarBody } = require("../libs/depositos.lib");
+const { validarBody, filtroUpdate } = require("../libs/depositos.lib");
 const { estaNaBD } = require("../libs/validators");
 
 module.exports = {
@@ -24,6 +24,36 @@ module.exports = {
       //criar novo deposito na db
       const deposito = await Depositos.create(body);
       res.json(deposito);
+    } catch (error) {
+      // Se algum erro ocorrer, enviar o erro como resposta
+      res.json({ message: error.message });
+    }
+  },
+  async update(req, res) {
+    const id = req.params.id;
+
+    try {
+      // Verificar se o depósito existe na base de dados
+      const deposito = await Depositos.findByPk(id);
+      if (!deposito) {
+        res.status(404);
+        throw new Error("Depósito não encontrado");
+      }
+      //verificar se o deposito esta ativo
+      if (deposito.status !== "ativo") {
+        res.status(403);
+        throw new Error("Depósito esta inativo");
+      }
+      //filtrar dados do body
+      const novos_dados = await filtroUpdate(req, res);
+      //verificar se o usuario que esta requisitando  esta com status ativo
+      if (req.payload.status !== "ativo") {
+        res.status(403);
+        throw new Error("Usuário não autorizado");
+      }
+      // Atualizar o depósito caso exista novos dados
+      novos_dados && (await deposito.update(novos_dados));
+      res.sendStatus(204);
     } catch (error) {
       // Se algum erro ocorrer, enviar o erro como resposta
       res.json({ message: error.message });
