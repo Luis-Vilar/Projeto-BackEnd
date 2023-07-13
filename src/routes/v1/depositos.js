@@ -1,7 +1,8 @@
 const depositosRoutes = require("express").Router();
+const {store} = require('../../controllers/depositos.controller')
+const { validarToken } = require("../../middlewares/auth");
 
-depositosRoutes.get("/api/depositos", async (req, res) => {
- res.json({ message: "Endpoint depositos" });
-});
+depositosRoutes.post("/api/depositos",validarToken,store);
+
 
 module.exports = depositosRoutes;
