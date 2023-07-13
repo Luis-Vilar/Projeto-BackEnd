@@ -6,6 +6,7 @@ module.exports = {
     await queryInterface.createTable(
       "medicamento_deposito",
       {
+        quantidade: { type: Sequelize.INTEGER, allowNull: false },
         deposito_id: {
           type: Sequelize.INTEGER,
           allowNull: false,

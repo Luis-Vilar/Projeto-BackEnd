@@ -11,6 +11,7 @@ const Depositos = connection.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     usuario_id: {
       type: Sequelize.INTEGER,
@@ -44,6 +45,14 @@ const Depositos = connection.define(
       validate: {
         validaEmail,
       },
+    },
+    telefone: {
+      type: Sequelize.STRING,
+      allowNull: true,
+    },
+    celular: {
+      type: Sequelize.STRING,
+      allowNull: false,
     },
     cep: { type: Sequelize.STRING(20), allowNull: false },
     logradouro: { type: Sequelize.STRING(20), allowNull: false },
@@ -79,9 +88,15 @@ const Depositos = connection.define(
   {
     paranoid: true,
     timestamps: true,
+    underscored: true,
   }
 );
 
+Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });
+Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });
+Medicamentos.hasMany(MedicamentoDeposito, { as: "stock" });
+Depositos.hasMany(MedicamentoDeposito, { as: "stock" });
 
+Depositos.belongsTo(Usuarios);
 
 module.exports = Depositos;
