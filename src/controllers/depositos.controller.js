@@ -197,4 +197,45 @@ module.exports = {
       res.json({ message: error.message });
     }
   },
+  //deletar deposito sempre que não houver medicamentos vinculados a ele e o deposito.status for inativo
+  async deleteId(req, res) {
+    const id = req.params.id;
+    const usuario_id = req.payload.id;
+    try {
+      //verificar se o usuario que esta requisitando  esta com status ativo
+      await usuarioEstaAtivo(usuario_id);
+      //verificar se o id passado por parâmetro  e numérico
+      if (isNaN(id)) {
+        res.status(400);
+        throw new Error(
+          "Id passado por parâmetro obrigatoriamente deve ser numérico"
+        );
+      }
+      // Verificar se o depósito existe na base de dados
+      const deposito = await Depositos.findByPk(id, {
+        include: {
+          association: "medicamentos",
+        },
+      });
+      if (!deposito) {
+        res.status(404);
+        throw new Error("Depósito não encontrado");
+      }
+      //verificar se o deposito esta ativo
+      if (deposito.status !== "inativo") {
+        res.status(403);
+        throw new Error("Depósito esta ativo, não pode ser deletado");
+      }
+      //verificar se o deposito esta vinculado a algum medicamento
+      if (deposito.medicamentos.length > 0) {
+        res.status(403);
+        throw new Error("Depósito esta vinculado a algum medicamento, não pode ser deletado");
+      }
+      //deletar deposito
+      await deposito.destroy();
+      res.sendStatus(204);
+    } catch (error) {
+      res.json({ message: error.message });
+    }
+  },
 };
