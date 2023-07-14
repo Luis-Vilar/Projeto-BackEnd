@@ -54,9 +54,9 @@ async function filtroUpdate(req, res) {
     cidade,
     estado,
   } = body;
-// criamos um objeto vazio
+  // criamos um objeto vazio
   const novos_dados = {};
-// verificamos se o campo existe no body e se existe adicionamos ao objeto
+  // verificamos se o campo existe no body e se existe adicionamos ao objeto
   if (nome_fantasia) {
     novos_dados.nome_fantasia = nome_fantasia;
   }
@@ -94,12 +94,32 @@ async function filtroUpdate(req, res) {
     res.status(400);
     throw new Error("Nenhum dado valido para atualizar");
   }
-  // caso algunm dado valido esta em novos_dados retornamos o 
+  // caso algunm dado valido esta em novos_dados retornamos o
   // objeto com os dados que queremos atualizar
   return novos_dados;
 }
-
+async function filtroStatus(req, res) {
+  //so destruturamos os campos que queremos permitir atualizar
+  const { status } = req.body;
+  //criamos um objeto vazio
+  const novos_dados = {};
+  //verificamos se status existe no body e se existe adicionamos ao objeto
+  if (status) {
+    novos_dados.status = status;
+  }
+  //se o objeto estiver vazio, não temos dados para
+  //atualizar ou informarem dados invalidos e não foi salvo no objeto
+  //então criamos um erro que sera capturado pelo try catch
+  if (Object.keys(novos_dados).length === 0) {
+    res.status(400);
+    throw new Error("Nenhum dado valido para atualizar");
+  }
+  //caso foi informado o status retornamos um
+  //novo objeto com os status que queremos atualizar
+  return novos_dados;
+}
 module.exports = {
   validarBody,
   filtroUpdate,
+  filtroStatus,
 };

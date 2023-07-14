@@ -1,10 +1,17 @@
 const Depositos = require("../models/Depositos");
-const { validarBody, filtroUpdate } = require("../libs/depositos.lib");
-const { estaNaBD } = require("../libs/validators");
+const {
+  validarBody,
+  filtroUpdate,
+  filtroStatus,
+} = require("../libs/depositos.lib");
+const { estaNaBD, usuarioEstaAtivo } = require("../libs/validators");
 
 module.exports = {
   async store(req, res) {
+    const usuario_id = req.payload.id;
     try {
+      //verificar se o usuario que esta requisitando  esta com status ativo
+      await usuarioEstaAtivo(usuario_id);
       const body = req.body;
       // Validar se o body da requisição contem os campos necessários para criar um novo depósito
       if (!(await validarBody(body))) {
@@ -31,8 +38,17 @@ module.exports = {
   },
   async update(req, res) {
     const id = req.params.id;
-
+    const usuario_id = req.payload.id;
     try {
+      //verificar se o usuario que esta requisitando  esta com status ativo
+      await usuarioEstaAtivo(usuario_id);
+      //verificar se o id passado por parâmetro  e numérico
+      if (isNaN(id)) {
+        res.status(400);
+        throw new Error(
+          "Id passado por parâmetro obrigatoriamente deve ser numérico"
+        );
+      }
       // Verificar se o depósito existe na base de dados
       const deposito = await Depositos.findByPk(id);
       if (!deposito) {
@@ -56,6 +72,36 @@ module.exports = {
       res.sendStatus(204);
     } catch (error) {
       // Se algum erro ocorrer, enviar o erro como resposta
+      res.json({ message: error.message });
+    }
+  },
+  async status(req, res) {
+    const usuario_id = req.payload.id;
+    const id = req.params.id;
+
+    try {
+      //verificar se o usuario que esta requisitando  esta com status ativo
+      await usuarioEstaAtivo(usuario_id);
+
+      if (isNaN(id)) {
+        //verificar se o id passado por parâmetro  e numérico
+        res.status(400);
+        throw new Error(
+          "Id passado por parâmetro obrigatoriamente deve ser numérico"
+        );
+      }
+      // Verificar se o depósito existe na base de dados
+      const deposito = await Depositos.findByPk(id);
+      if (!deposito) {
+        res.status(404);
+        throw new Error("Depósito não encontrado");
+      }
+      // filtrar dados do body
+      const novo_status = await filtroStatus(req, res);
+      // Atualizar o depósito caso exista novos dados
+      novo_status && (await deposito.update(novo_status));
+      res.sendStatus(204);
+    } catch (error) {
       res.json({ message: error.message });
     }
   },
