@@ -105,4 +105,48 @@ module.exports = {
       res.json({ message: error.message });
     }
   },
+  async index(req, res) {
+    const status = req.query.status;
+    const usuario_id = req.payload.id;
+    try {
+      //verificar se o usuario que esta requisitando  esta com status ativo
+      await usuarioEstaAtivo(usuario_id);
+      //verificar se o status passado por parâmetro  e válido
+      if (status && !["ativo", "inativo"].includes(status.toLowerCase())) {
+        res.status(400);
+        throw new Error("Status na query params inválido");
+      }
+      // garantir que o status seja passado em minúsculo
+      const status_pesquisado = status ? { status: status.toLowerCase() } : {};
+      // Listar todos os depósitos ativos ou inativos segundo o status seja passado por query params
+      const depositos = await Depositos.findAll({
+        where: status_pesquisado,
+        attributes: [
+          "id",
+          "razao_social",
+          "cnpj",
+          "telefone",
+          "email",
+          "celular",
+          "cep",
+          "logradouro",
+          "numero",
+          "cidade",
+          "estado",
+        ],
+        include: {
+          association: "usuario",
+          attributes: ["nome", "email", "status"],
+        },
+      });
+      //  e se não listar todos os depósitos
+      status
+        ? res.json({
+            ["depositos_" + String(status).toLocaleLowerCase()]: depositos,
+          })
+        : res.json({ todos_os_depositos: depositos });
+    } catch (error) {
+      res.json({ message: error.message });
+    }
+  },
 };
