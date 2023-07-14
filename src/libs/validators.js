@@ -23,9 +23,20 @@ async function validaEmail(email) {
 async function estaNaBD(modelo, columna, valor) {
   const achado = await modelo.findOne({
     where: {
-      [columna]: valor
-    }
-    });
-    return achado ? true : false;
+      [columna]: valor,
+    },
+  });
+  return achado ? true : false;
 }
-module.exports = { validaSenha, validaEmail,  estaNaBD };
+async function usuarioEstaAtivo(usuario_id) {
+  const Usuarios = require("../models/Usuarios");
+  console.log(usuario_id);
+  const usuario = await Usuarios.findByPk(usuario_id);
+  console.log(usuario.status);
+  if (usuario.status !== "ativo") {
+    throw new Error("Usuário não autorizado");
+  }
+  return true;
+}
+
+module.exports = { validaSenha, validaEmail, estaNaBD, usuarioEstaAtivo };

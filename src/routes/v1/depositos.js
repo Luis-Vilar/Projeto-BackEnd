@@ -1,9 +1,10 @@
 const depositosRoutes = require("express").Router();
-const {store, update} = require('../../controllers/depositos.controller');
+const {store, update, status} = require('../../controllers/depositos.controller');
 const { validarToken } = require("../../middlewares/auth");
-//endpoinst protegidos por token
+//endpoints protegidos por token
 depositosRoutes.post("/api/depositos",validarToken,store);
 depositosRoutes.patch("/api/depositos/:id",validarToken,update);
+depositosRoutes.patch("/api/depositos/:id/status",validarToken,status)
 
 
 module.exports = depositosRoutes;
