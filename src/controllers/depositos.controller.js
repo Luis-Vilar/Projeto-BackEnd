@@ -149,4 +149,52 @@ module.exports = {
       res.json({ message: error.message });
     }
   },
+  async indexId(req, res) {
+    const id = req.params.id;
+    const usuario_id = req.payload.id;
+    try {
+      //verificar se o usuario que esta requisitando  esta com status ativo
+      await usuarioEstaAtivo(usuario_id);
+      //verificar se o id passado por parâmetro  e numérico
+      if (isNaN(id)) {
+        res.status(400);
+        throw new Error(
+          "Id passado por parâmetro obrigatoriamente deve ser numérico"
+        );
+      }
+      // Verificar se o depósito existe na base de dados
+      const deposito = await Depositos.findByPk(id, {
+        attributes: [
+          "id",
+          "status",
+          "razao_social",
+          "nome_fantasia",
+          "cnpj",
+          "email",
+          "celular",
+          "telefone",
+          "cep",
+          "estado",
+          "cidade",
+          "bairro",
+          "logradouro",
+          "numero",
+          "complemento",
+          "latitude",
+          "longitude",
+        ],
+        include: {
+          association: "usuario",
+          attributes: ["nome", "email", "status"],
+        },
+      });
+      if (!deposito) {
+        res.status(404);
+        throw new Error("Depósito não encontrado");
+      }
+      res.json(deposito);
+    } catch (error) {
+      res.json({ message: error.message });
+    }
+  },
 };
