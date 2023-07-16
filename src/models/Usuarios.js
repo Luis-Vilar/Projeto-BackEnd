@@ -95,6 +95,7 @@ const Usuarios = connection.define(
   {
     paranoid: true,
     timestamps: true,
+    underscored: true,
   }
 )
 
