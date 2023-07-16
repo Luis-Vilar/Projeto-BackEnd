@@ -94,6 +94,7 @@ const Depositos = connection.define(
 
 Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });
 Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });
+
 MedicamentoDeposito.hasMany(Depositos, { foreignKey: "id" });
 MedicamentoDeposito.hasMany(Medicamentos, { foreignKey: "id" });
 
