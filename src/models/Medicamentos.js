@@ -8,6 +8,7 @@ const Medicamentos = connection.define(
     id: {
       type: Sequelize.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
     nome_medicamento: {
       type: Sequelize.STRING,
@@ -69,6 +70,7 @@ const Medicamentos = connection.define(
   {
     paranoid: true,
     timestamps: true,
+    underscored: true,
   }
 );
 
