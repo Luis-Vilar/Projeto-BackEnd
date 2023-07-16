@@ -229,7 +229,9 @@ module.exports = {
       //verificar se o deposito esta vinculado a algum medicamento
       if (deposito.medicamentos.length > 0) {
         res.status(403);
-        throw new Error("Depósito esta vinculado a algum medicamento, não pode ser deletado");
+        throw new Error(
+          "Depósito esta vinculado a algum medicamento, não pode ser deletado"
+        );
       }
       //deletar deposito
       await deposito.destroy();
