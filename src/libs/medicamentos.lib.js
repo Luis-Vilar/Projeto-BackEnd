@@ -1,5 +1,6 @@
 const Medicamentos = require("../models/Medicamentos");
 const MedicamentoDeposito = require("../models/MedicamentoDeposito");
+const Depositos = require("../models/Depositos");
 const { estaNaBD } = require("../libs/validators");
 async function validarBody(body) {
   const {
@@ -59,67 +60,75 @@ async function filtroStore(body) {
   }
   return novos_dados;
 }
-async function salvarMedicamento(
-  body,
-  deposito_id,
-  quantidade,
-  req,
-  res
-) {
+async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
+  //pegamos o deposito do usuario que esta fazendo a requisição
+  const deposito_usuario = await Depositos.findOne({
+    where: { usuario_id: usuario_id },
+  });
+  //verificamos se tem um deposito para o usuario
+  if (!deposito_usuario) {
+    throw new Error("Você não tem um deposito cadastrado");
+  }
+
   var medicamento = null;
   //validar se o medicamento esta  na bd
   if (
     await estaNaBD(Medicamentos, "nome_medicamento", req.body.nome_medicamento)
   ) {
-    //se o medicamento esta na bd pegamos ele para cadastrar no deposito
+    //se o medicamento esta na bd pegamos ele
     medicamento = await Medicamentos.findOne({
       where: { nome_medicamento: req.body.nome_medicamento },
     });
     //antes atualizamos o medicamento
     await medicamento.update(await filtroStore(body));
   } else {
-    //caso contrario criamos o medicamento e pegamos ele para cadastrar no deposito
+    //caso contrario criamos o medicamento
     const dados_medicamento = await filtroStore(body);
     medicamento = await Medicamentos.create(dados_medicamento);
   }
 
-  // Guardar en la tabla medicamento_deposito
-  const dados = {};
-
-  dados.quantidade = quantidade;
-  dados.medicamentoId = medicamento.id;
-  dados.depositoId = deposito_id;
+  // agora vamos criar a relação entre o medicamento e o deposito
+  const dados = {
+    quantidade: quantidade,
+    medicamentoId: medicamento.id,
+    depositoId: deposito_usuario.id,
+  };
 
   //verificar se nao existe o medicamento no deposito para nao duplicar
-  let medicamento_deposito = null;
+  var atualizou = false;
 
   const medicamento_deposito_bd = await MedicamentoDeposito.findOne({
-    where: { medicamentoId: medicamento.id, depositoId: deposito_id },
+    where: { medicamentoId: dados.medicamentoId, depositoId: dados.depositoId },
   });
+
+  var medicamento_novo = null;
 
   if (!medicamento_deposito_bd) {
     //se o medicamento nao esta no deposito criamos ele
-    medicamento_deposito = await MedicamentoDeposito.create(dados);
+    medicamento_novo = await MedicamentoDeposito.create(dados);
   } else {
     //se o medicamento ja esta no deposito atualizamos a quantidade
     dados.quantidade += medicamento_deposito_bd.quantidade;
-    medicamento_deposito = await medicamento_deposito_bd.update(dados);
+    await medicamento_deposito_bd.update(dados);
+    atualizou = true;
   }
+
   if (!medicamento) {
     //se o medicamento nao foi criado corretamente  criamos um erro para retornar
     throw new Error("Erro ao cadastrar medicamento");
   }
-  if (!medicamento_deposito) {
-    // se nao foi possivel cadastrar o medicamento no deposito deletamos o medicamento da
-    medicamento && (await medicamento.destroy());
-    throw new Error("Erro ao cadastrar medicamento no deposito");
-  }
 
-  if (medicamento && medicamento_deposito) {
+  if (medicamento && !atualizou) {
     res.status(201).json({
       message: "Medicamento cadastrado com sucesso",
       medicamento,
-      medicamento_deposito,
+      medicamento_novo,
+    });
+  } else {
+    res.status(201).json({
+      message: "Medicamento atualizado com sucesso",
+      medicamento,
+      medicamento_deposito_bd,
     });
   }
 }
