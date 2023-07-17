@@ -65,7 +65,7 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
   const deposito_usuario = await Depositos.findOne({
     where: { usuario_id: usuario_id },
   });
-  //verificamos se tem um deposito para o usuario
+  //verificamos se tem um deposito vinculado ao usuario
   if (!deposito_usuario) {
     throw new Error("Você não tem um deposito cadastrado");
   }
@@ -101,11 +101,11 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
     where: { medicamentoId: dados.medicamentoId, depositoId: dados.depositoId },
   });
 
-  var medicamento_novo = null;
+  var medicamento_deposito_novo = null;
 
   if (!medicamento_deposito_bd) {
     //se o medicamento nao esta no deposito criamos ele
-    medicamento_novo = await MedicamentoDeposito.create(dados);
+    medicamento_deposito_novo = await MedicamentoDeposito.create(dados);
   } else {
     //se o medicamento ja esta no deposito atualizamos a quantidade
     dados.quantidade += medicamento_deposito_bd.quantidade;
@@ -117,15 +117,16 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
     //se o medicamento nao foi criado corretamente  criamos um erro para retornar
     throw new Error("Erro ao cadastrar medicamento");
   }
-
+  // se o medicamento e a relaçao com o deposito foram criados corretamente retornamos uma mensagem de sucesso
+  res.status(201);
   if (medicamento && !atualizou) {
-    res.status(201).json({
+    res.json({
       message: "Medicamento cadastrado com sucesso",
       medicamento,
-      medicamento_novo,
+      medicamento_deposito_novo,
     });
   } else {
-    res.status(201).json({
+    res.json({
       message: "Medicamento atualizado com sucesso",
       medicamento,
       medicamento_deposito_bd,
