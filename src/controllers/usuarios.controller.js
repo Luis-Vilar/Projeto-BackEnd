@@ -32,7 +32,7 @@ module.exports = {
       }
       // caso algum erro ocorra devolvemos o erro para o cliente
     } catch (error) {
-      return res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async login(req, res) {
@@ -52,7 +52,7 @@ module.exports = {
       await gerarToken(Usuarios, body, res);
       // caso algum erro ocorra devolvemos o erro para o cliente
     } catch (error) {
-      return res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async update(req, res) {
@@ -91,7 +91,7 @@ module.exports = {
       }
     } catch (error) {
       // caso algum erro ocorra devolvemos o erro para o cliente
-      return res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async status(req, res) {
@@ -128,7 +128,7 @@ module.exports = {
       }
     } catch (error) {
       // caso algum erro ocorra devolvemos o erro para o cliente
-      return res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async senha(req, res) {
@@ -165,7 +165,7 @@ module.exports = {
       }
     } catch (error) {
       // caso algum erro ocorra devolvemos o erro para o cliente
-      res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async index(req, res) {
@@ -196,7 +196,7 @@ module.exports = {
         res.status(200).json(user);
       }
     } catch (error) {
-      res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
 };

@@ -1,6 +1,7 @@
 const Medicamentos = require("../models/Medicamentos");
 const MedicamentoDeposito = require("../models/MedicamentoDeposito");
 const Depositos = require("../models/Depositos");
+
 const { estaNaBD } = require("../libs/validators");
 async function validarBody(body) {
   const {
@@ -133,8 +134,58 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
     });
   }
 }
+
+async function filtroUpdate(body) {
+
+  const {
+    descricao, preco_unitario
+  } = body;
+
+  const novos_dados = {};
+
+  if (preco_unitario) {
+    novos_dados.preco_unitario = preco_unitario;
+  }
+
+  if (descricao) {
+    novos_dados.descricao = descricao;
+  }
+  console.log(novos_dados)
+  return novos_dados;
+
+}
+async function atualizarMedicamento(usuario_id, medicamento_id, quantidade, req, res) {
+  const dados_medicamento = await filtroUpdate(req.body);
+
+  const medicamento = await Medicamentos.findOne({
+    where: { id: medicamento_id },
+  });
+
+  const deposito_usuario = await Depositos.findOne({
+    where: { usuario_id: usuario_id },
+  });
+
+  const medicamento_deposito_bd = await MedicamentoDeposito.findOne({
+    where: { medicamentoId: medicamento_id, depositoId: deposito_usuario.id },
+  });
+
+  if (medicamento && medicamento_deposito_bd) {
+    medicamento.update(dados_medicamento);
+    medicamento_deposito_bd.update({ quantidade: quantidade });
+  } else {
+    res.status(404);
+    throw new Error("Não existe esse medicamento no seu deposito");
+  }
+
+  res.json({ msg: `Medicamento atualizado no deposito Nº ${deposito_usuario.id} - ${deposito_usuario.nome_fantasia}`, ...medicamento.dataValues, quantidade: medicamento_deposito_bd.quantidade })
+
+}
+
+
 module.exports = {
   validarBody,
   filtroStore,
   salvarMedicamento,
+  filtroUpdate,
+  atualizarMedicamento
 };
