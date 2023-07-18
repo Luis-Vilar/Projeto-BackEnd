@@ -28,10 +28,11 @@ async function estaNaBD(modelo, columna, valor) {
   });
   return achado ? true : false;
 }
-async function usuarioEstaAtivo(usuario_id) {
+async function usuarioEstaAtivo(usuario_id, res) {
   const Usuarios = require("../models/Usuarios");
   const usuario = await Usuarios.findByPk(usuario_id);
   if (usuario.status !== "ativo") {
+    res.status(401);
     throw new Error("Usuário não autorizado");
   }
   return true;

@@ -11,7 +11,7 @@ module.exports = {
     const usuario_id = req.payload.id;
     try {
       //verificar se o usuario que esta requisitando  esta com status ativo
-      await usuarioEstaAtivo(usuario_id);
+      await usuarioEstaAtivo(usuario_id, res);
       const body = req.body;
       // Validar se o body da requisição contem os campos necessários para criar um novo depósito
       if (!(await validarBody(body))) {
@@ -33,7 +33,7 @@ module.exports = {
       res.json(deposito);
     } catch (error) {
       // Se algum erro ocorrer, enviar o erro como resposta
-      res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async update(req, res) {
@@ -41,7 +41,7 @@ module.exports = {
     const usuario_id = req.payload.id;
     try {
       //verificar se o usuario que esta requisitando  esta com status ativo
-      await usuarioEstaAtivo(usuario_id);
+      await usuarioEstaAtivo(usuario_id, res);
       //verificar se o id passado por parâmetro  e numérico
       if (isNaN(id)) {
         res.status(400);
@@ -72,7 +72,7 @@ module.exports = {
       res.sendStatus(204);
     } catch (error) {
       // Se algum erro ocorrer, enviar o erro como resposta
-      res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async status(req, res) {
@@ -81,7 +81,7 @@ module.exports = {
 
     try {
       //verificar se o usuario que esta requisitando  esta com status ativo
-      await usuarioEstaAtivo(usuario_id);
+      await usuarioEstaAtivo(usuario_id, res);
 
       if (isNaN(id)) {
         //verificar se o id passado por parâmetro  e numérico
@@ -102,7 +102,7 @@ module.exports = {
       novo_status && (await deposito.update(novo_status));
       res.sendStatus(204);
     } catch (error) {
-      res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async index(req, res) {
@@ -110,7 +110,7 @@ module.exports = {
     const usuario_id = req.payload.id;
     try {
       //verificar se o usuario que esta requisitando  esta com status ativo
-      await usuarioEstaAtivo(usuario_id);
+      await usuarioEstaAtivo(usuario_id, res);
       //verificar se o status passado por parâmetro  e válido
       if (status && !["ativo", "inativo"].includes(status.toLowerCase())) {
         res.status(400);
@@ -146,7 +146,7 @@ module.exports = {
           })
         : res.json({ todos_os_depositos: depositos });
     } catch (error) {
-      res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   async indexId(req, res) {
@@ -154,7 +154,7 @@ module.exports = {
     const usuario_id = req.payload.id;
     try {
       //verificar se o usuario que esta requisitando  esta com status ativo
-      await usuarioEstaAtivo(usuario_id);
+      await usuarioEstaAtivo(usuario_id, res);
       //verificar se o id passado por parâmetro  e numérico
       if (isNaN(id)) {
         res.status(400);
@@ -194,7 +194,7 @@ module.exports = {
       }
       res.json(deposito);
     } catch (error) {
-      res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
   //deletar deposito sempre que não houver medicamentos vinculados a ele e o deposito.status for inativo
@@ -203,7 +203,7 @@ module.exports = {
     const usuario_id = req.payload.id;
     try {
       //verificar se o usuario que esta requisitando  esta com status ativo
-      await usuarioEstaAtivo(usuario_id);
+      await usuarioEstaAtivo(usuario_id, res);
       //verificar se o id passado por parâmetro  e numérico
       if (isNaN(id)) {
         res.status(400);
@@ -237,7 +237,7 @@ module.exports = {
       await deposito.destroy();
       res.sendStatus(204);
     } catch (error) {
-      res.json({ message: error.message });
+      return res.json(error.message);
     }
   },
 };
