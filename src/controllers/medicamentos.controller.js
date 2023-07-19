@@ -1,5 +1,5 @@
 const { usuarioEstaAtivo } = require("../libs/validators");
-const { validarBody, salvarMedicamento, atualizarMedicamento, listarMedicamentos } = require("../libs/medicamentos.lib");
+const { validarBody, salvarMedicamento, atualizarMedicamento, listarMedicamentos, listarMedicamentosId } = require("../libs/medicamentos.lib");
 
 
 async function store(req, res) {
@@ -61,9 +61,28 @@ async function index(req, res) {
   }
 
 }
+async function indexId(req, res) {
+  const usuario_id = req.payload.id;
+  const medicamento_id = req.params.id;
+  try {
+    //verificamos se o id passado por parametro é um numero caso contrario retornamos um erro
+    if (isNaN(medicamento_id)) {
+      res.status(400);
+      throw new Error("Requisição com dados inválidos, o id do medicamento deve ser um numero");
+    }
+    // validar que usuário este ativo na bd pode ter sido desativado por um admin e ter um token valido ainda
+    await usuarioEstaAtivo(usuario_id, res);
+    // listamos um medicamento por id
+    await listarMedicamentosId(req, res, medicamento_id);
+  } catch (error) {
+    return res.json(error.message);
+  }
+
+}
 
 module.exports = {
   store,
   update,
-  index
+  index,
+  indexId
 };

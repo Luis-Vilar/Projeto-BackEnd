@@ -245,6 +245,30 @@ async function listarMedicamentos(req, res) {
     throw new Error("Não existe medicamentos cadastrados");
   }
 }
+async function listarMedicamentosId(req, res) {
+  // pegamos o id do medicamento na url
+  const medicamento_id = req.params.id;
+  //buscamos o medicamento no banco de dados com o id passado na url
+  const medicamento = await Medicamentos.findOne({
+    where: { id: medicamento_id },
+    include: {
+      model: MedicamentoDeposito,
+      attributes: ["quantidade"],
+      include: {
+        model: Depositos,
+        attributes: ["nome_fantasia", "logradouro", "numero", "bairro", "cidade", "estado", "cep"],
+      },
+    },
+  });
+  //se o medicamento existir retornamos ele
+  if (medicamento) {
+    return res.json(medicamento);
+  } else {
+    //se o medicamento nao existir retornamos um erro
+    res.status(404);
+    throw new Error("Medicamento não encontrado");
+  }
+}
 
 
 module.exports = {
@@ -253,5 +277,6 @@ module.exports = {
   salvarMedicamento,
   filtroUpdate,
   atualizarMedicamento,
-  listarMedicamentos
+  listarMedicamentos,
+  listarMedicamentosId
 };
