@@ -33,6 +33,11 @@ const Depositos = connection.define(
           args: [14, 14],
           msg: "O CNPJ deve ter 14 caracteres",
         },
+        isNumeric: {
+          args: true,
+          msg: "O CNPJ deve conter apenas números e não deve conter pontos ou traços",
+        },
+
       },
     },
     nome_fantasia: {
@@ -48,11 +53,22 @@ const Depositos = connection.define(
     },
     telefone: {
       type: Sequelize.STRING,
-      allowNull: true,
+      allowNull: true, validate: {
+        isNumeric: {
+          args: true,
+          msg: "O telefone deve conter apenas números e não deve conter pontos ou traços",
+        },
+      },
     },
     celular: {
       type: Sequelize.STRING,
       allowNull: false,
+      validate: {
+        isNumeric: {
+          args: true,
+          msg: "O celular deve conter apenas números e não deve conter pontos ou traços",
+        },
+      },
     },
     cep: { type: Sequelize.STRING(20), allowNull: false },
     logradouro: { type: Sequelize.STRING(20), allowNull: false },
@@ -61,8 +77,26 @@ const Depositos = connection.define(
     cidade: { type: Sequelize.STRING(20), allowNull: false },
     estado: { type: Sequelize.STRING(20), allowNull: false },
     complemento: { type: Sequelize.STRING(20), allowNull: true },
-    latitude: { type: Sequelize.STRING(20), allowNull: true },
-    longitude: { type: Sequelize.STRING(20), allowNull: true },
+    latitude: {
+      type: Sequelize.STRING(20),
+      allowNull: true,
+      validate: {
+        isNumeric: {
+          args: true,
+          msg: "Latitude deve ser numérico, exemplo : 12.3456"
+        }
+      }
+    },
+    longitude: {
+      type: Sequelize.STRING(20),
+      allowNull: true,
+      validate: {
+        isNumeric: {
+          args: true,
+          msg: "Longitude deve ser numérico, exemplo : 12.3456"
+        }
+      }
+    },
     status: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -103,10 +137,5 @@ MedicamentoDeposito.belongsTo(Depositos);
 
 Depositos.belongsTo(Usuarios);
 
-// Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });
-// Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });
-// MedicamentoDeposito.hasMany(Depositos, { foreignKey: "id" });
-// MedicamentoDeposito.hasMany(Medicamentos, { foreignKey: "id" });
-// Depositos.belongsTo(Usuarios);
 
 module.exports = Depositos;

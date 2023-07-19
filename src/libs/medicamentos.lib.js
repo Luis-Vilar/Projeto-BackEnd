@@ -134,7 +134,6 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
     });
   }
 }
-
 async function filtroUpdate(body) {
 
   const {
@@ -304,8 +303,6 @@ async function deletarMedicamento(req, res) {
     throw new Error("Medicamento não encontrado");
   }
 }
-
-
 
 module.exports = {
   validarBody,

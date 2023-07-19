@@ -1,7 +1,3 @@
-const { sign, verify } = require("jsonwebtoken");
-// const { config } = require("dotenv");
-const e = require("express");
-// config();
 
 async function validarBody(body) {
   const {
@@ -17,7 +13,6 @@ async function validarBody(body) {
     bairro,
     cidade,
     estado,
-    status,
   } = body;
   if (
     !usuario_id ||
@@ -31,12 +26,87 @@ async function validarBody(body) {
     !numero ||
     !bairro ||
     !cidade ||
-    !estado ||
-    !status
+    !estado
   ) {
     return false;
   }
   return true;
+}
+async function filtroStore(body) {
+  const {
+    usuario_id,
+    razao_social,
+    cnpj,
+    nome_fantasia,
+    email,
+    telefone,
+    celular,
+    cep,
+    logradouro,
+    numero,
+    bairro,
+    cidade,
+    estado,
+    complemento,
+    latitude,
+    longitude,
+    status,
+  } = body;
+  const novos_dados = {}
+  if (usuario_id) {
+    novos_dados.usuario_id = usuario_id;
+  }
+  if (razao_social) {
+    novos_dados.razao_social = razao_social;
+  }
+  if (cnpj) {
+    novos_dados.cnpj = cnpj;
+  }
+  if (nome_fantasia) {
+    novos_dados.nome_fantasia = nome_fantasia;
+  }
+  if (email) {
+    novos_dados.email = email;
+  }
+  if (telefone) {
+    novos_dados.telefone = telefone;
+  }
+  if (celular) {
+    novos_dados.celular = celular;
+  }
+  if (cep) {
+    novos_dados.cep = cep;
+  }
+  if (logradouro) {
+    novos_dados.logradouro = logradouro;
+  }
+  if (numero) {
+    novos_dados.numero = numero;
+  }
+  if (bairro) {
+    novos_dados.bairro = bairro;
+  }
+  if (cidade) {
+    novos_dados.cidade = cidade;
+  }
+  if (estado) {
+    novos_dados.estado = estado;
+  }
+  if (complemento) {
+    novos_dados.complemento = complemento;
+  }
+  if (latitude) {
+    novos_dados.latitude = latitude;
+  }
+  if (longitude) {
+    novos_dados.longitude = longitude;
+  }
+  if (status) {
+    novos_dados.status = status;
+  }
+
+  return novos_dados;
+
 }
 async function filtroUpdate(req, res) {
   // pegamos o body da requisição
@@ -120,6 +190,7 @@ async function filtroStatus(req, res) {
 }
 module.exports = {
   validarBody,
+  filtroStore,
   filtroUpdate,
   filtroStatus,
 };
