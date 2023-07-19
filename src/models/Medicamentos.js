@@ -55,6 +55,16 @@ const Medicamentos = connection.define(
     preco_unitario: {
       type: Sequelize.FLOAT,
       allowNull: false,
+      validate: {
+        isNumeric: {
+          args: true,
+          msg: "O preço unitário deve ser um número",
+        },
+        min: {
+          args: [0.1],
+          msg: "O preço unitário deve ser maior ou igual a 0.1",
+        },
+      },
     },
     createdAt: {
       type: Sequelize.DATE,
