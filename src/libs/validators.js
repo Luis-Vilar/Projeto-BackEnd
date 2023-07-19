@@ -38,4 +38,9 @@ async function usuarioEstaAtivo(usuario_id, res) {
   return true;
 }
 
-module.exports = { validaSenha, validaEmail, estaNaBD, usuarioEstaAtivo };
+module.exports = {
+  validaSenha,
+  validaEmail,
+  estaNaBD,
+  usuarioEstaAtivo
+};

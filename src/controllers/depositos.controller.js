@@ -3,6 +3,7 @@ const {
   validarBody,
   filtroUpdate,
   filtroStatus,
+  filtroStore,
 } = require("../libs/depositos.lib");
 const { estaNaBD, usuarioEstaAtivo } = require("../libs/validators");
 
@@ -23,13 +24,24 @@ module.exports = {
         res.status(409);
         throw new Error("CNPJ já cadastrado");
       }
+      //email esta na db ?
+      if (await estaNaBD(Depositos, "email", body.email)) {
+        res.status(409);
+        throw new Error("Email já cadastrado");
+      }
       // razao social esta na db ?
       if (await estaNaBD(Depositos, "razao_social", body.razao_social)) {
         res.status(409);
         throw new Error("Razão Social já cadastrada");
       }
+      //nome fantasia esta na db ?
+      if (await estaNaBD(Depositos, "nome_fantasia", body.nome_fantasia)) {
+        res.status(409);
+        throw new Error("Nome Fantasia já cadastrado");
+      }
+
       //criar novo deposito na db
-      const deposito = await Depositos.create(body);
+      const deposito = await Depositos.create(await filtroStore(body));
       res.json(deposito);
     } catch (error) {
       // Se algum erro ocorrer, enviar o erro como resposta
@@ -114,8 +126,10 @@ module.exports = {
       //verificar se o status passado por parâmetro  e válido
       if (status && !["ativo", "inativo"].includes(status.toLowerCase())) {
         res.status(400);
-        throw new Error("Status na query params inválido");
+        throw new Error("Status na query params inválido ");
+
       }
+
       // garantir que o status seja passado em minúsculo
       const status_pesquisado = status ? { status: status.toLowerCase() } : {};
       // Listar todos os depósitos ativos ou inativos segundo o status seja passado por query params
@@ -139,12 +153,15 @@ module.exports = {
           attributes: ["nome", "email", "status"],
         },
       });
-      //  e se não listar todos os depósitos
+      //  verifica se o status foi passado por query params, caso sim,
+      //  retorna um objeto com o status passado por parâmetro e setea o nome 
+      //  do objeto com o status [exemplo : depósitos_ativos ] caso contrário, 
+      //  retorna um objeto com o nome depositos e o array de todos os depositos
       status
         ? res.json({
-            ["depositos_" + String(status).toLocaleLowerCase()]: depositos,
-          })
-        : res.json({ todos_os_depositos: depositos });
+          ["depositos_" + String(status).toLocaleLowerCase()]: depositos,
+        })
+        : res.json({ depositos });
     } catch (error) {
       return res.json(error.message);
     }
@@ -197,7 +214,6 @@ module.exports = {
       return res.json(error.message);
     }
   },
-  //deletar deposito sempre que não houver medicamentos vinculados a ele e o deposito.status for inativo
   async deleteId(req, res) {
     const id = req.params.id;
     const usuario_id = req.payload.id;

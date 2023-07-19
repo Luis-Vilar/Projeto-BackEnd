@@ -1,7 +1,6 @@
 const { usuarioEstaAtivo } = require("../libs/validators");
 const { validarBody, salvarMedicamento, atualizarMedicamento, listarMedicamentos, listarMedicamentosId, deletarMedicamento } = require("../libs/medicamentos.lib");
 
-
 async function store(req, res) {
   const body = req.body;
   const usuario_id = req.payload.id;
@@ -99,7 +98,6 @@ async function deleteId(req, res) {
 
 
 }
-
 module.exports = {
   store,
   update,
