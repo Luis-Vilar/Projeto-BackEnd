@@ -269,6 +269,42 @@ async function listarMedicamentosId(req, res) {
     throw new Error("Medicamento não encontrado");
   }
 }
+async function deletarMedicamento(req, res) {
+  //pegamos o id do medicamento na url
+  const medicamento_id = req.params.id;
+  //buscamos o medicamento no banco de dados com o id passado na url
+  const medicamento = await Medicamentos.findOne({
+    where: { id: medicamento_id },
+    include: {
+      model: MedicamentoDeposito,
+      attributes: ["quantidade"],
+      include: {
+        model: Depositos,
+        attributes: ["nome_fantasia", "logradouro", "numero", "bairro", "cidade", "estado", "cep"],
+      },
+    },
+
+  });
+  //se o medicamento nao existir retornamos um erro
+  if (!medicamento) {
+    res.status(404);
+    throw new Error("Medicamento não encontrado");
+  }
+  //se o medicamento nao estiver asociado a nenhum deposito podemos deletar ele caso contrario retornamos um erro
+  if (medicamento) {
+    if (medicamento.medicamento_depositos.length == 0) {
+      medicamento.destroy();
+      return res.sendStatus(204);
+    } else {
+      res.status(401)
+      throw new Error(`Não é possivel deletar o medicamento pois ele esta associado a ${medicamento.medicamento_depositos.length} deposito(s)`);
+    }
+  } else {
+    res.status(404);
+    throw new Error("Medicamento não encontrado");
+  }
+}
+
 
 
 module.exports = {
@@ -278,5 +314,6 @@ module.exports = {
   filtroUpdate,
   atualizarMedicamento,
   listarMedicamentos,
-  listarMedicamentosId
+  listarMedicamentosId,
+  deletarMedicamento
 };
