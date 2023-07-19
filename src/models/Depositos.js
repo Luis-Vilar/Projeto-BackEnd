@@ -126,8 +126,8 @@ const Depositos = connection.define(
   }
 );
 
-Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });//
-Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });//
+Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });
+Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });
 
 Medicamentos.hasMany(MedicamentoDeposito);
 Depositos.hasMany(MedicamentoDeposito);

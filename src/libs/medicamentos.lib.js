@@ -1,6 +1,7 @@
 const Medicamentos = require("../models/Medicamentos");
 const MedicamentoDeposito = require("../models/MedicamentoDeposito");
 const Depositos = require("../models/Depositos");
+const Usuarios = require("../models/Usuarios");
 
 const { estaNaBD } = require("../libs/validators");
 async function validarBody(body) {
@@ -68,6 +69,7 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
   });
   //verificamos se tem um deposito vinculado ao usuario
   if (!deposito_usuario) {
+    res.status(424)
     throw new Error("Você não tem um deposito cadastrado");
   }
 
@@ -137,7 +139,7 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
 async function filtroUpdate(body) {
 
   const {
-    descricao, preco_unitario
+    descricao, preco_unitario, quantidade
   } = body;
 
   const novos_dados = {};
@@ -149,12 +151,20 @@ async function filtroUpdate(body) {
   if (descricao) {
     novos_dados.descricao = descricao;
   }
-  console.log(novos_dados)
+  if (quantidade) {
+    novos_dados.quantidade = quantidade;
+  }
   return novos_dados;
 
 }
 async function atualizarMedicamento(usuario_id, medicamento_id, quantidade, req, res) {
   const dados_medicamento = await filtroUpdate(req.body);
+  //verificar que dados_medicamento nao esta vazio
+
+  if (Object.keys(dados_medicamento).length === 0) {
+    res.status(400);
+    throw new Error("Nenhum dado foi enviado para atualizar");
+  }
 
   const medicamento = await Medicamentos.findOne({
     where: { id: medicamento_id },
@@ -176,7 +186,7 @@ async function atualizarMedicamento(usuario_id, medicamento_id, quantidade, req,
     throw new Error("Não existe esse medicamento no seu deposito");
   }
 
-  res.json({ msg: `Medicamento atualizado no deposito Nº ${deposito_usuario.id} - ${deposito_usuario.nome_fantasia}`, ...medicamento.dataValues, quantidade: medicamento_deposito_bd.quantidade })
+  res.json({ ...medicamento.dataValues, quantidade: medicamento_deposito_bd.quantidade })
 
 }
 async function listarMedicamentos(req, res) {
@@ -193,6 +203,7 @@ async function listarMedicamentos(req, res) {
             model: Depositos,
             attributes: ["nome_fantasia", "logradouro", "numero", "bairro", "cidade", "estado", "cep"],
           },
+
 
         },
       }
