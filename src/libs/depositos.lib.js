@@ -1,7 +1,7 @@
 const { sign, verify } = require("jsonwebtoken");
-const { config } = require("dotenv");
+// const { config } = require("dotenv");
 const e = require("express");
-config();
+// config();
 
 async function validarBody(body) {
   const {

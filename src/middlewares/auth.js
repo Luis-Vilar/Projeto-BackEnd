@@ -1,6 +1,6 @@
 const { verify } = require("jsonwebtoken");
-const { config } = require("dotenv");
-config();
+// const { config } = require("dotenv");
+// config();
 
 module.exports = {
   async validarToken(req, res, next) {
