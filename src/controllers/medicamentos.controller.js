@@ -1,5 +1,5 @@
 const { usuarioEstaAtivo } = require("../libs/validators");
-const { validarBody, salvarMedicamento, atualizarMedicamento } = require("../libs/medicamentos.lib");
+const { validarBody, salvarMedicamento, atualizarMedicamento, listarMedicamentos } = require("../libs/medicamentos.lib");
 
 
 async function store(req, res) {
@@ -37,21 +37,33 @@ async function update(req, res) {
   try {
     // validar que usuário este ativo na bd pode ter sido desativado por um admin e ter um token valido ainda
     await usuarioEstaAtivo(usuario_id, res);
-
     //verificar que quantidade e body.preco_unitario sejam numeros, que a descricao nao seja um numero e que o body nao esteja vazio
     if ((Object.keys(body).length === 0) || (quantidade && isNaN(quantidade)) || (body.preco_unitario && isNaN(body.preco_unitario)) || (body.descricao && !isNaN(body.descricao))) {
       res.status(400);
       throw new Error("Requisição com dados inválidos");
     }
-
     // validar que o body, o req.payload e req.params tenha os campos necessários para atualizar um medicamento e/o a quantidade num deposito e logo atualizar dependedo da requisição
     await atualizarMedicamento(usuario_id, medicamento_id, quantidade, req, res);
   } catch (error) {
     return res.json(error.message);
   }
 }
+async function index(req, res) {
+  const usuario_id = req.payload.id;
+
+  try {
+    // validar que usuário este ativo na bd pode ter sido desativado por um admin e ter um token valido ainda
+    await usuarioEstaAtivo(usuario_id, res);
+    // listar medicamentos aceita query params para filtrar por controlado ou não controlado
+    await listarMedicamentos(req, res);
+  } catch (error) {
+    return res.json(error.message);
+  }
+
+}
 
 module.exports = {
   store,
   update,
+  index
 };

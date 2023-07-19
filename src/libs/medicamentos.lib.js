@@ -180,6 +180,41 @@ async function atualizarMedicamento(usuario_id, medicamento_id, quantidade, req,
   res.json({ msg: `Medicamento atualizado no deposito Nº ${deposito_usuario.id} - ${deposito_usuario.nome_fantasia}`, ...medicamento.dataValues, quantidade: medicamento_deposito_bd.quantidade })
 
 }
+async function listarMedicamentos(req, res) {
+  var medicamentos = null;
+  const tipo_params = req.query.tipo;
+  //se nao vem o tipo de medicamento na query listamos todos os medicamentos
+  if (!tipo_params) {
+    medicamentos = await Medicamentos.findAll()
+    return res.json(medicamentos)
+  }
+  //se vem o tipo de medicamento na query listamos os medicamentos de acordo com o tipo
+  const buscar = tipo_params.toLowerCase();
+  //verificamos se o tipo de medicamento é valido
+  if (buscar != "controlado" && buscar != "naocontrolado") {
+    throw new Error("Tipo de medicamento invalido, tente controlado ou naocontrolado");
+  }
+  //se o tipo de medicamento for controlado listamos os medicamentos controlados
+  if (buscar == "controlado") {
+    medicamentos = await Medicamentos.findAll({
+      where: { tipo: "Controlado" },
+    });
+    return res.json(medicamentos);
+  }
+  //se o tipo de medicamento for naocontrolado listamos os medicamentos naocontrolados
+  if (buscar == "naocontrolado") {
+    medicamentos = await Medicamentos.findAll({
+      where: { tipo: "Não controlado" },
+    });
+  }
+  //se existir medicamentos retornamos eles
+  if (medicamentos) {
+    return res.json(medicamentos);
+  } else {
+    //se nao existir medicamentos retornamos um erro
+    throw new Error("Não existe medicamentos cadastrados");
+  }
+}
 
 
 module.exports = {
@@ -187,5 +222,6 @@ module.exports = {
   filtroStore,
   salvarMedicamento,
   filtroUpdate,
-  atualizarMedicamento
+  atualizarMedicamento,
+  listarMedicamentos
 };
