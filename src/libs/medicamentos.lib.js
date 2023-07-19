@@ -185,7 +185,19 @@ async function listarMedicamentos(req, res) {
   const tipo_params = req.query.tipo;
   //se nao vem o tipo de medicamento na query listamos todos os medicamentos
   if (!tipo_params) {
-    medicamentos = await Medicamentos.findAll()
+    medicamentos = await Medicamentos.findAll(
+      {
+        include: {
+          model: MedicamentoDeposito,
+          attributes: ["quantidade"],
+          include: {
+            model: Depositos,
+            attributes: ["nome_fantasia", "logradouro", "numero", "bairro", "cidade", "estado", "cep"],
+          },
+
+        },
+      }
+    )
     return res.json(medicamentos)
   }
   //se vem o tipo de medicamento na query listamos os medicamentos de acordo com o tipo
@@ -198,6 +210,15 @@ async function listarMedicamentos(req, res) {
   if (buscar == "controlado") {
     medicamentos = await Medicamentos.findAll({
       where: { tipo: "Controlado" },
+      include: {
+        model: MedicamentoDeposito,
+        attributes: ["quantidade"],
+        include: {
+          model: Depositos,
+          attributes: ["nome_fantasia", "logradouro", "numero", "bairro", "cidade", "estado", "cep"],
+        },
+
+      },
     });
     return res.json(medicamentos);
   }
@@ -205,6 +226,15 @@ async function listarMedicamentos(req, res) {
   if (buscar == "naocontrolado") {
     medicamentos = await Medicamentos.findAll({
       where: { tipo: "Não controlado" },
+      include: {
+        model: MedicamentoDeposito,
+        attributes: ["quantidade"],
+        include: {
+          model: Depositos,
+          attributes: ["nome_fantasia", "logradouro", "numero", "bairro", "cidade", "estado", "cep"],
+        },
+
+      },
     });
   }
   //se existir medicamentos retornamos eles

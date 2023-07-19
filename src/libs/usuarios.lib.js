@@ -1,6 +1,6 @@
 const { sign } = require("jsonwebtoken");
-const { config } = require("dotenv");
-config();
+// const { config } = require("dotenv");
+// config();
 async function validarBody(body) {
   const {
     genero,

@@ -92,12 +92,21 @@ const Depositos = connection.define(
   }
 );
 
-Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });
-Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });
+Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });//
+Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });//
 
-MedicamentoDeposito.hasMany(Depositos, { foreignKey: "id" });
-MedicamentoDeposito.hasMany(Medicamentos, { foreignKey: "id" });
+Medicamentos.hasMany(MedicamentoDeposito);
+Depositos.hasMany(MedicamentoDeposito);
+
+MedicamentoDeposito.belongsTo(Medicamentos);
+MedicamentoDeposito.belongsTo(Depositos);
 
 Depositos.belongsTo(Usuarios);
+
+// Depositos.belongsToMany(Medicamentos, { through: MedicamentoDeposito });
+// Medicamentos.belongsToMany(Depositos, { through: MedicamentoDeposito });
+// MedicamentoDeposito.hasMany(Depositos, { foreignKey: "id" });
+// MedicamentoDeposito.hasMany(Medicamentos, { foreignKey: "id" });
+// Depositos.belongsTo(Usuarios);
 
 module.exports = Depositos;
