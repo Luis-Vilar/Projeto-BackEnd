@@ -2,6 +2,7 @@ const Usuarios = require("../models/Usuarios.js");
 const { estaNaBD } = require("../libs/validators.js");
 const {
   validarBody,
+  filtroStore,
   informoEmailESenha,
   gerarToken,
 } = require("../libs/usuarios.lib.js");
@@ -21,7 +22,7 @@ module.exports = {
         throw new Error("CPF já cadastrado");
       }
       // tentativa de criar um usuario
-      const user = await Usuarios.create(body);
+      const user = await Usuarios.create(await filtroStore(body));
       // verificar se o usuario foi criado
       if (user) {
         return res.status(201).json({
@@ -101,6 +102,7 @@ module.exports = {
       // so aceitar valores ativo ou inativo para o status e verificar se o status foi informado
       if ((status !== "ativo" && status !== "inativo") || !status) {
         res.status(400);
+        //se o status não foi informado ou é invalido devolvemos uma mensagem de erro
         let msg = !status
           ? "Status não informado"
           : "Status informado inválido";
@@ -171,6 +173,11 @@ module.exports = {
   async index(req, res) {
     try {
       const paramsId = req.params.id;
+      //verificar que o id seja um numero
+      if (isNaN(paramsId)) {
+        res.status(400);
+        throw new Error(`O id ${paramsId} informado não é um número`);
+      }
 
       //tem algum usuario com esse id na bd?
       if (!(await estaNaBD(Usuarios, "id", paramsId))) {

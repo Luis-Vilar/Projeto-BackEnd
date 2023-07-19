@@ -12,7 +12,7 @@ module.exports = {
       }
       next();
     } catch (error) {
-      res.status(401).json({ message: error.message });
+      return res.status(401).json("Token inválido");
     }
   },
 };

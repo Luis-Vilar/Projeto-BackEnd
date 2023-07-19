@@ -3,28 +3,67 @@ const { sign } = require("jsonwebtoken");
 // config();
 async function validarBody(body) {
   const {
-    genero,
-    email,
     nome,
+    sobrenome,
     data_nascimento,
     cpf,
+    email,
     senha,
-    telefone,
-    sobrenome,
   } = body;
   if (
-    !genero ||
     !email ||
     !nome ||
     !data_nascimento ||
     !cpf ||
     !senha ||
-    !telefone ||
     !sobrenome
   ) {
     return false;
   }
   return true;
+}
+
+async function filtroStore(body) {
+  const {
+    nome,
+    sobrenome,
+    genero,
+    data_nascimento,
+    cpf,
+    telefone,
+    email,
+    senha,
+    status
+  } = body;
+  const novos_dados = {};
+  if (genero) {
+    novos_dados.genero = genero;
+  }
+  if (email) {
+    novos_dados.email = email;
+  }
+  if (nome) {
+    novos_dados.nome = nome;
+  }
+  if (data_nascimento) {
+    novos_dados.data_nascimento = data_nascimento;
+  }
+  if (cpf) {
+    novos_dados.cpf = cpf;
+  }
+  if (senha) {
+    novos_dados.senha = senha;
+  }
+  if (telefone) {
+    novos_dados.telefone = telefone;
+  }
+  if (sobrenome) {
+    novos_dados.sobrenome = sobrenome;
+  }
+  if (status) {
+    novos_dados.status = status;
+  }
+  return novos_dados;
 }
 async function informoEmailESenha(body) {
   const { email, senha } = body;
@@ -65,6 +104,7 @@ async function gerarToken(Usuarios, body, res) {
 }
 module.exports = {
   validarBody,
+  filtroStore,
   informoEmailESenha,
   gerarToken,
 };
