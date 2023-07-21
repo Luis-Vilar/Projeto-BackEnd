@@ -95,7 +95,7 @@ async function gerarToken(Usuarios, body, res) {
     });
   } else {
     res.status(401);
-    throw new Error("Falha na autenticação");
+    throw new Error("Email ou senha estão inválidos");
   }
 }
 module.exports = {

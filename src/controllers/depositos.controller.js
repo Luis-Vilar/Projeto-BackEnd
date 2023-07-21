@@ -79,6 +79,11 @@ module.exports = {
         res.status(403);
         throw new Error("Usuário não autorizado");
       }
+      //verificar as unique da tabela deposito antes de tentar atualizar 
+      if (novos_dados.nome_fantasia && await estaNaBD(Depositos, "nome_fantasia", novos_dados.nome_fantasia)) {
+        res.status(400);
+        throw new Error("nome_fantasia ja cadastrado")
+      }
       // Atualizar o depósito caso exista novos dados
       novos_dados && (await deposito.update(novos_dados));
       res.sendStatus(204);
