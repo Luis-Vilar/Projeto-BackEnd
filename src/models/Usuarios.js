@@ -7,7 +7,6 @@ const UsuarioMedicamento = require("./UsuarioMedicamento");
 const Usuarios = connection.define(
   "usuarios",
   {
-   
     nome: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -55,12 +54,25 @@ const Usuarios = connection.define(
     telefone: {
       type: Sequelize.STRING,
       allowNull: true,
+      validate: {
+        len: {
+          args: [10, 15],
+          msg: "O telefone deve ter entre 10 e 15 caracteres",
+        },
+        isNumeric: {
+          args: true,
+          msg: "O telefone deve conter apenas números",
+        },
+
+      },
+
     },
     email: {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
         validaEmail,
+        
       },
     },
     senha: {
@@ -81,16 +93,6 @@ const Usuarios = connection.define(
         },
       },
     },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.NOW,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: true,
-      defaultValue: Sequelize.NOW,
-    },
   },
   {
     paranoid: true,
@@ -100,6 +102,13 @@ const Usuarios = connection.define(
 )
 
 Medicamentos.belongsToMany(Usuarios, { through: UsuarioMedicamento });
+Usuarios.belongsToMany(Medicamentos, { through: UsuarioMedicamento });
+
+Usuarios.hasMany(UsuarioMedicamento);
+Medicamentos.hasMany(UsuarioMedicamento);
+
+UsuarioMedicamento.belongsTo(Usuarios);
+UsuarioMedicamento.belongsTo(Medicamentos);
 
 
 

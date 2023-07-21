@@ -2,6 +2,8 @@ const Medicamentos = require("../models/Medicamentos");
 const MedicamentoDeposito = require("../models/MedicamentoDeposito");
 const Depositos = require("../models/Depositos");
 const Usuarios = require("../models/Usuarios");
+const UsuarioMedicamento = require("../models/UsuarioMedicamento");
+
 
 const { estaNaBD } = require("../libs/validators");
 async function validarBody(body) {
@@ -119,6 +121,12 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
   if (!medicamento) {
     //se o medicamento nao foi criado corretamente  criamos um erro para retornar
     throw new Error("Erro ao cadastrar medicamento");
+  } else {
+    await UsuarioMedicamento.create({
+      medicamentoId: medicamento.id,
+      usuarioId: usuario_id,
+
+    })
   }
   // se o medicamento e a relaçao com o deposito foram criados corretamente retornamos uma mensagem de sucesso
   res.status(201);
@@ -131,6 +139,7 @@ async function salvarMedicamento(body, quantidade, usuario_id, req, res) {
   } else {
     res.json({
       message: "Medicamento atualizado com sucesso",
+
       medicamento,
       medicamento_deposito_bd,
     });
@@ -267,8 +276,10 @@ async function listarMedicamentosId(req, res) {
       include: {
         model: Depositos,
         attributes: ["nome_fantasia", "logradouro", "numero", "bairro", "cidade", "estado", "cep"],
+
       },
     },
+
   });
   //se o medicamento existir retornamos ele
   if (medicamento) {
