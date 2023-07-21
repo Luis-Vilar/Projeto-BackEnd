@@ -1,7 +1,6 @@
 
-async function validarBody(body) {
+async function validarBody(body, usuario_id) {
   const {
-    usuario_id,
     razao_social,
     cnpj,
     nome_fantasia,
@@ -32,9 +31,8 @@ async function validarBody(body) {
   }
   return true;
 }
-async function filtroStore(body) {
+async function filtroStore(body, id) {
   const {
-    usuario_id,
     razao_social,
     cnpj,
     nome_fantasia,
@@ -53,8 +51,8 @@ async function filtroStore(body) {
     status,
   } = body;
   const novos_dados = {}
-  if (usuario_id) {
-    novos_dados.usuario_id = usuario_id;
+  if (id) {
+    novos_dados.usuario_id = id;
   }
   if (razao_social) {
     novos_dados.razao_social = razao_social;

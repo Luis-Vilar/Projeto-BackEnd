@@ -8,26 +8,14 @@ const Usuarios = require("./Usuarios");
 const Depositos = connection.define(
   "depositos",
   {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     usuario_id: {
       type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        model: "usuarios",
-        key: "id",
-      },
     },
     razao_social: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     cnpj: {
       type: Sequelize.STRING,
-      allowNull: false,
       validate: {
         len: {
           args: [14, 14],
@@ -42,7 +30,6 @@ const Depositos = connection.define(
     },
     nome_fantasia: {
       type: Sequelize.STRING,
-      allowNull: false,
     },
     email: {
       type: Sequelize.STRING,
@@ -53,7 +40,7 @@ const Depositos = connection.define(
     },
     telefone: {
       type: Sequelize.STRING,
-      allowNull: true, validate: {
+      validate: {
         isNumeric: {
           args: true,
           msg: "O telefone deve conter apenas números e não deve conter pontos ou traços",
@@ -62,7 +49,6 @@ const Depositos = connection.define(
     },
     celular: {
       type: Sequelize.STRING,
-      allowNull: false,
       validate: {
         isNumeric: {
           args: true,
@@ -70,16 +56,15 @@ const Depositos = connection.define(
         },
       },
     },
-    cep: { type: Sequelize.STRING(20), allowNull: false },
-    logradouro: { type: Sequelize.STRING(20), allowNull: false },
-    numero: { type: Sequelize.STRING(20), allowNull: false },
-    bairro: { type: Sequelize.STRING(20), allowNull: false },
-    cidade: { type: Sequelize.STRING(20), allowNull: false },
-    estado: { type: Sequelize.STRING(20), allowNull: false },
-    complemento: { type: Sequelize.STRING(20), allowNull: true },
+    cep: { type: Sequelize.STRING(20) },
+    logradouro: { type: Sequelize.STRING(20) },
+    numero: { type: Sequelize.STRING(20) },
+    bairro: { type: Sequelize.STRING(20) },
+    cidade: { type: Sequelize.STRING(20) },
+    estado: { type: Sequelize.STRING(20) },
+    complemento: { type: Sequelize.STRING(20) },
     latitude: {
       type: Sequelize.STRING(20),
-      allowNull: true,
       validate: {
         isNumeric: {
           args: true,
@@ -89,7 +74,6 @@ const Depositos = connection.define(
     },
     longitude: {
       type: Sequelize.STRING(20),
-      allowNull: true,
       validate: {
         isNumeric: {
           args: true,
@@ -99,7 +83,6 @@ const Depositos = connection.define(
     },
     status: {
       type: Sequelize.STRING,
-      allowNull: false,
       defaultValue: "ativo",
       validate: {
         isIn: {
@@ -107,16 +90,6 @@ const Depositos = connection.define(
           msg: "O status deve ser ativo ou inativo",
         },
       },
-    },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.NOW,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-      defaultValue: Sequelize.NOW,
     },
   },
   {

@@ -5,11 +5,6 @@ const connection = require("../database/connection");
 const Medicamentos = connection.define(
   "medicamentos",
   {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
     nome_medicamento: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -66,16 +61,7 @@ const Medicamentos = connection.define(
         },
       },
     },
-    createdAt: {
-      type: Sequelize.DATE,
-      allowNull: false,
-    },
-    updatedAt: {
-      type: Sequelize.DATE,
-    },
-    deletedAt: {
-      type: Sequelize.DATE,
-    },
+
   },
   {
     paranoid: true,

@@ -32,7 +32,6 @@ async function filtroStore(body) {
     telefone,
     email,
     senha,
-    status
   } = body;
   const novos_dados = {};
   if (genero) {
@@ -59,9 +58,7 @@ async function filtroStore(body) {
   if (sobrenome) {
     novos_dados.sobrenome = sobrenome;
   }
-  if (status) {
-    novos_dados.status = status;
-  }
+
   return novos_dados;
 }
 async function informoEmailESenha(body) {

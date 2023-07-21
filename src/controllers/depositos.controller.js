@@ -15,7 +15,7 @@ module.exports = {
       await usuarioEstaAtivo(usuario_id, res);
       const body = req.body;
       // Validar se o body da requisição contem os campos necessários para criar um novo depósito
-      if (!(await validarBody(body))) {
+      if (!(await validarBody(body, usuario_id))) {
         res.status(400);
         throw new Error("Requisição com dados inválidos");
       }
@@ -41,7 +41,7 @@ module.exports = {
       }
 
       //criar novo deposito na db
-      const deposito = await Depositos.create(await filtroStore(body));
+      const deposito = await Depositos.create(await filtroStore(body, usuario_id));
       res.json(deposito);
     } catch (error) {
       // Se algum erro ocorrer, enviar o erro como resposta

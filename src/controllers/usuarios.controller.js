@@ -21,6 +21,11 @@ module.exports = {
         res.status(409);
         throw new Error("CPF já cadastrado");
       }
+      //validar se o email ja esta cadastrado
+      if (await estaNaBD(Usuarios, "email", body.email)) {
+        res.status(409);
+        throw new Error("Email já cadastrado");
+      }
       // tentativa de criar um usuario
       const user = await Usuarios.create(await filtroStore(body));
       // verificar se o usuario foi criado
@@ -98,7 +103,13 @@ module.exports = {
   async status(req, res) {
     const status = req.body.status;
     const paramsId = req.params.id;
+    const idUsuarioReq = req.payload.id;
     try {
+      //verificar se o usuario que esta fazendo a requisição existe e esta ativo
+      const usuarioReq = await Usuarios.findByPk(idUsuarioReq)
+      if (!usuarioReq || usuarioReq.status === 'inativo') {
+        throw new Error("Sem permissão para este endpoint")
+      }
       // so aceitar valores ativo ou inativo para o status e verificar se o status foi informado
       if ((status !== "ativo" && status !== "inativo") || !status) {
         res.status(400);
@@ -113,19 +124,24 @@ module.exports = {
         res.status(404);
         throw new Error("Usuário não encontrado");
       }
-      //atualizar o status do usuario na base de dados
-      const user = await Usuarios.update(
-        { status },
+      //pega o usuario da bd  para atualizar o status
+      const user = await Usuarios.findOne(
         {
           where: {
-            id: paramsId,
-          },
+            id: paramsId
+          }
         }
-      );
+      )
+      // caso o usuario que esta requisitando quer mudar seu status impedimos 
+      if (user.id === idUsuarioReq) {
+        res.status(401)
+        throw new Error("Voce nao pode mudar seu status, contate um administrador...")
+      }
       //verificar se o usuario foi atualizado e devolver uma mensagem de sucesso
       if (user) {
-        res.status(200).json({
-          message: `Usuario com id ${paramsId} atualizado com o status : ${status}`,
+        await user.update({ status })
+        return res.status(200).json({
+          message: `Usuario com id ${user.id} atualizado com o status : ${status}`,
         });
       }
     } catch (error) {
