@@ -108,6 +108,7 @@ module.exports = {
       //verificar se o usuario que esta fazendo a requisição existe e esta ativo
       const usuarioReq = await Usuarios.findByPk(idUsuarioReq)
       if (!usuarioReq || usuarioReq.status === 'inativo') {
+        res.status(401)
         throw new Error("Sem permissão para este endpoint")
       }
       // so aceitar valores ativo ou inativo para o status e verificar se o status foi informado

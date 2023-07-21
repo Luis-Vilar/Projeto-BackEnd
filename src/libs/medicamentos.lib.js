@@ -172,7 +172,7 @@ async function atualizarMedicamento(usuario_id, medicamento_id, quantidade, req,
 
   if (Object.keys(dados_medicamento).length === 0) {
     res.status(400);
-    throw new Error("Nenhum dado foi enviado para atualizar");
+    throw new Error("Nenhum dado valido para atualizar");
   }
 
   const medicamento = await Medicamentos.findOne({
