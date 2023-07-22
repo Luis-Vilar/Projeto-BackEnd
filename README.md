@@ -1,7 +1,41 @@
-# Projeto-BackEnd
-FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
+<H1> Projeto-BackEnd</H1>
+<H3>FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo</H3>
 
+## INTRODUÇÃO
+A LABPharmacy Inc, uma renomada empresa do ramo de tecnologia farmacêutica, está expandindo seus serviços. Por conta da expansão, o time de gestão necessita da criação de um sistema online, intitulado Pharmacy Central System (PCS), para gerenciamento de depósitos e medicamentos. Por conta da participação no projeto de front-end, o seu perfil chamou a atenção dos gestores, para agora criar o back-end do sistema que deverá ser codificado em Node, utilizando o framework Express.js com o uso do banco de dados PostgreSQL.
+A LABPharmacy Inc deseja criar a API Rest da aplicação Pharmacy Central System (PCS), um software para gestão de depósitos e medicamentos, que será utilizado para o controle de estoque dos medicamentos de hospitais e postos de saúde.
 
+<h2>TECNOLOGIAS UTILIZADAS :</h2>
+<br>
+<h5>
+    
+![image](https://img.shields.io/badge/Git-E34F26?style=for-the-badge&logo=git&logoColor=white)![image](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)![image](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black)![image](https://img.shields.io/badge/Yarn-2C8EBB.svg?style=for-the-badge&logo=Yarn&logoColor=white)![image](https://img.shields.io/badge/Sequelize-52B0E7.svg?style=for-the-badge&logo=Sequelize&logoColor=white)![image](https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=for-the-badge&logo=PostgreSQL&logoColor=white)![image](https://img.shields.io/badge/JSON%20Web%20Tokens-000000.svg?style=for-the-badge&logo=JSON-Web-Tokens&logoColor=white)![image](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC.svg?style=for-the-badge&logo=Visual-Studio-Code&logoColor=white)
+</h5>
+<br>
+<br>
+
+## COMO EXECUTAR MINHA SOLUÇÃO
+- Dependências a serem instaladas: Git [https://git-scm.com/](https://git-scm.com/), NodeJS [https://nodejs.org/pt-br](https://nodejs.org/pt-br), Yarn [https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable).
+- Abra um Terminal e clone o projeto: `git clone git@github.com:Luis-Vilar/Projeto-BackEnd.git` [ENTER].
+- Entre na pasta do repositório recém-clonado: `cd Projeto_Backend` [ENTER].
+- Execute o instalador de dependências: `yarn` [ENTER].
+- Você deverá criar um arquivo .env, na raiz da pasta do projeto tem um .env_example; se for de sua preferência, renomeie o mesmo arquivo e modifique as variáveis de ambiente com as corretas para você. Neste ponto, você poderá escolher outra base de dados, mas para este projeto foi utilizado PostgreSQL. As variáveis que deve configurar são `HOST` (endereço da API, por padrão, localhost para executar no seu computador), `DIALECT` (dialeto da BD, exemplo: postgresql), `USERNAMEDB` (nome do usuário da sua base de dados), `PASSWORDDB` (senha do usuário da base de dados), `DATABASE` (nome da base de dados), `JWT_KEY` (chave secreta do JWT). As demais estão com valores padrão; caso ache necessário, sinta-se à vontade para mudá-las.
+- Crie a base de dados com a ferramenta de sua preferência com o mesmo nome declarado na variável `DATABASE` (RECOMENDO DBVEAVER ou PGADMIN para o caso do PostgreSQL).
+- Dentro da pasta do Projeto-Backend, execute: `npx sequelize-cli db:migrate` [ENTER].
+- {OPCIONAL} Caso queira adicionar registros para testes na Base de dados, pode executar a criação de seeders com o seguinte comando no terminal, depois de finalizar as migrations: `npx sequelize-cli db:seed:all` [ENTER].
+- Neste ponto, o servidor deveria estar configurado totalmente. Vamos a iniciá-lo com o seguinte comando: `yarn start` [ENTER].
+- No terminal, deve aparecer a seguinte saída:<br>
+  ```sh
+  ╰─$ yarn start
+  yarn run v1.22.19
+  $ node src/index.js
+  Servidor executando em http://localhost:3000/
+  Executing (default): SELECT 1+1 AS result
+  Conexão com o banco de dados estabelecida com sucesso!
+-  Com algum cliente REST (recomendo THUNDERCLIENT), vamos criar um usuário no endpoint /api/usuarios com o verbo POST. Siga a documentação para este endpoint no S01..
+-  Novamente, utilizando o cliente REST, vamos fazer login com nosso usuário recém-criado no endpoint /api/user/login; este nos devolverá um token que será necessário para os demais endpoints, os quais são privados e devem ser inseridos no Header.Authorization da requisição em nosso cliente REST. Siga a documentação no S02.
+-  Todos os demais endpoints estão especificados na SIGUIENTE DOCUMENTAÇÃO : 
+## DOCUMENTAÇAO DA API 
 # ENDPOINTS USUARIO
 | ENDPOINT                 | VERBO | S## |
 | ------------------------ | ----- | --- |
@@ -16,6 +50,8 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 | req exemplo |
 | ----------- |
 
+ -----| BODY |
+ 
 <code>{
     "nome" : "Nome",
     "sobrenome" : "Sobrenome",
@@ -24,8 +60,8 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
     "email" : "email@dominio.com",
     "senha" : "Senhafor7&",
     "telefone" : "123456789012345",
-     //opcional "genero" : "genero"
-  }</code>
+     //opcional "genero" : "genero
+}</code>
 | res exemplo |
 | ----------- |
 
@@ -45,6 +81,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 | req exemplo |
 | ----------- |
 
+ -----| BODY |
 <code>js{
 "email" : "email@dominio.com",
 "senha" : "Senhafor7&"
