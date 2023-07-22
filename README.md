@@ -15,7 +15,8 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 ## S01 CADASTRO DE USUARIOS
 | req exemplo |
 | ----------- |
-{
+
+<code>{
     "nome" : "Nome",
     "sobrenome" : "Sobrenome",
     "data_nascimento" : "9999-12-31",
@@ -24,8 +25,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
     "senha" : "Senhafor7&",
     "telefone" : "123456789012345",
      //opcional "genero" : "genero"
-  }
-
+  }</code>
 | res exemplo |
 | ----------- |
 
@@ -34,21 +34,21 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 409 - Conflict  Emails já cadastrado
 
 201 - Created
-{
+<code>{
   "message": "Usuário cadastrado com sucesso",
   "identificador": 1,
   "status": "ativo"
-}
+}</code>
 
 
 ## S02 LOGIN DE USUARIOS
 | req exemplo |
 | ----------- |
 
-{
+<code>js{
 "email" : "email@dominio.com",
 "senha" : "Senhafor7&"
-}
+}</code>
 
 
 | res exemplo |
@@ -58,10 +58,10 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 404 - Not Found Usuário não encontrado
 
 200 OK 
-{
+<code>{
   "token": "eyJhbGciOiJsdfIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJhdGl2byIsImlkIjoxNywiaWF0IjoxNjg5OT
   c5NzYwLCJleHAiOjE2OTAwNjYxiiisdfsnkoyueyurwejB9.6rItLA0gs9tJWcjV7HrQ7IYSAn-LIeMgzuDd6iPBKqY"
-}
+}</code>
 
 
 ## S03 ATUALIZAR USUARIO
@@ -73,12 +73,12 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
 //opcional "nome" : "Nome",
 //opcional  "sobrenome" : "sobnome",
 //opcional  "telefone" : "123456789012345",
 //oipcional "genero" : "genero"
-  }
+  }</code>
 
 
 | res exemplo |
@@ -88,7 +88,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 401 - Unauthorized Sem permissão para atualizar este usuário
 
 202 Accepted 
-{
+<code>{
   "message": "Usuário 1 atualizado com sucesso",
   "updated": {
     "nome": "Nome",
@@ -96,7 +96,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
     "genero": "genero",
     "telefone": "123456789012345"
   }
-}
+}</code>
 
 
 ## S04 ATUALIZAR STATUS USUARIO
@@ -108,9 +108,9 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "status" : "ativo"
-}
+}</code>
 
 
 | res exemplo |
@@ -121,9 +121,9 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 401 - Unauthorized Voce nao pode mudar seu status, contate um administrador...
 404 - Not Found Usuário não encontrado
 200 OK
-{
+<code>{
   "message": "Usuario com id 1 atualizado com o status : ativo/inativo"
-}
+}</code>
 
 
 ## S05 ATUALIZAR SENHA USUARIO
@@ -135,9 +135,9 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "senha" : "umaSenham1T0fort@"
-}
+}</code>
 
 
 | res exemplo |
@@ -158,7 +158,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 -----| HEADER |
 | Authorization | token valido gerado no login ver #SO2
  -----| BODY |
-{}
+<code>{}</code>
 
 
 | res exemplo |
@@ -167,7 +167,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 400 - Bad Request  O id X informado não é um número 
 404 - Not Found Usuário não encontrado
 200 OK 
-{
+<code>{
   "id": 1,
   "cpf": "12345678901",
   "nome": "Nome",
@@ -179,7 +179,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
   "status": "ativo",
   "created_at": "2023-07-17T22:26:16.523Z",
   "updated_at": "2023-07-19T18:40:29.946Z"
-}
+}</code>
 
 
 # ENDPOINTS DEPOSITOS
@@ -202,7 +202,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "razao_social": "Razao Social",
   "nome_fantasia": "Nome Fantasia",
   "cnpj": "12312317312332",
@@ -218,7 +218,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
   "complemento": "Complemento ",
   "latitude": "1.234",
   "longitude": "1.234"
-}
+}</code>
 
 
 | res exemplo |
@@ -228,7 +228,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 409 - Conflict CNPJ/Email/Razao Social/Nome Fantasia já cadastrado
 401 - Unauthorized "Usuário não autorizado
 200 - OK 
-{
+<code>{
   "status": "ativo",
   "id": 1,
   "usuario_id": 1,
@@ -251,7 +251,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
   "createdAt": "2023-07-22T00:06:22.115Z",
   "deletedAt": null,
   "usuarioId": 17
-}
+}</code>
 
 
 ## S08 ATUALIZAR DEPOSITO
@@ -263,7 +263,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "nome_fantasia": "Nome Fantasia",
   "celular": "11111111111",
   "telefone": "11111111111",
@@ -276,7 +276,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
   "complemento": null,
   "latitude": 12.345,
   "longitude": 12.345
-}
+}</code>
 
 
 | res exemplo |
@@ -300,9 +300,9 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "status":"ativo"
-}
+}</code>
 
 
 | res exemplo |
@@ -326,8 +326,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
  -----| QUERY PARAMS |
 status = inativo/ativo || opcional se não informado devolve todos os depositos
  -----| BODY |
-{
-}
+<code>{}</code>
 
 
 | res exemplo |
@@ -336,21 +335,15 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 400 - Bad Request Status na query params inválido
 401 - Unauthorized Usuario não autorizado
 200 OK
-{
+<code>{
   "depositos_inativo": [],
 }
-
-
-200 OK
 {
   "depositos_ativo": []
 }
-
-
-200 OK
 {
   "depositos_inativo": []
-}
+}</code>
 
 
 ## S11 LISTAR DEPOSITO POR ID
@@ -374,7 +367,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 404 - Not Found Deposito não encontrado 
 
 200 - OK
-{
+<code>{
   "id": 19,
   "status": "ativo",
   "razao_social": "RazaoSocial2",
@@ -397,7 +390,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
     "email": "chaveta@gmail.com",
     "status": "ativo"
   }
-}
+}</code>
 
 
 ## S12 DELETAR DEPOSITO POR ID
@@ -446,7 +439,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 
 
  -----| BODY |
-{
+<code>{
     "nome_medicamento": "Nome",
     "nome_laboratorio" : "Laboratorio",
     "dosagem" : 200,
@@ -455,7 +448,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
     "preco_unitario" : 23.33,
     "descricao" : "Uma descriçao",
     "quantidade" : 600
-  }
+  }</code>
 
 | res exemplo |
 | ----------- |
@@ -464,7 +457,8 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 401 - Unauthorized Usuario não autorizado
 424 - Failed Dependecy Você não tem um deposito cadastrado
 
-200 - OK {
+200 - OK
+<code>{
   "message": "Medicamento cadastrado com sucesso",
   "medicamento": {
     "id": 1,
@@ -487,7 +481,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
     "createdAt": "2023-07-22T01:48:27.755Z",
     "deletedAt": null
   }
-}
+}</code>
 
 ## S14 ATUALIZAR MEDICAMENTO
 | req exemplo |
@@ -498,11 +492,11 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 
 
  -----| BODY |
-{
+<code>{
     "preco_unitario" : 253.33,
     "descricao" : "Uma descriçao",
     "quantidade" : 600
-}
+}</code>
 
 
 | res exemplo |
@@ -513,7 +507,8 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 401 - Unauthorized Usuário não autorizado
 404 - Not Found Não existe esse medicamento no seu deposito
 
-200 OK{
+200 OK
+<code>{
   "id": 1,
   "nome_medicamento": "Nome",
   "nome_laboratorio": "Laboratorio",
@@ -526,7 +521,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
   "updatedAt": "2023-07-22T01:54:54.684Z",
   "deletedAt": null,
   "quantidade": 600
-}
+}</code>
 
 
 ## S15 LISTAR MEDICAMENTOS
@@ -541,8 +536,7 @@ tipo = controlado/naocontrolado || opcional se não informado devolve todos medi
 
 
  -----| BODY |
-{
-}
+<code>{}</code>
 
 
 | res exemplo |
@@ -563,8 +557,7 @@ um array de medicamentos segundo o tipo
 
 
  -----| BODY |
-{
-}
+<code>{}</code>
 
 
 | res exemplo |
@@ -573,7 +566,8 @@ um array de medicamentos segundo o tipo
 
 400 - Bad Request Requisição com dados inválidos, o id do medicamento deve ser um numero
 404 - Not Found Medicamento não encontrado
-200 - OK {
+200 - OK 
+<code>{
   "id": 1,
   "nome_medicamento": "Medicamento",
   "nome_laboratorio": "Laboratório",
@@ -599,8 +593,7 @@ um array de medicamentos segundo o tipo
       }
     }
   ]
-}
-
+}</code>
 
 ## S17 DELETAR MEDICAMENTO
 | req exemplo |
