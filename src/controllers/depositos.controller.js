@@ -81,7 +81,7 @@ module.exports = {
       }
       //verificar as unique da tabela deposito antes de tentar atualizar 
       if (novos_dados.nome_fantasia && await estaNaBD(Depositos, "nome_fantasia", novos_dados.nome_fantasia)) {
-        res.status(400);
+        res.status(409);
         throw new Error("nome_fantasia ja cadastrado")
       }
       // Atualizar o depósito caso exista novos dados
