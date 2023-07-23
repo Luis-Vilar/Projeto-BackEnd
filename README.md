@@ -1,9 +1,21 @@
 <H1> Projeto-BackEnd</H1>
 <H3>FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo</H3>
 
+
+
 ## INTRODUÇÃO
 A LABPharmacy Inc, uma renomada empresa do ramo de tecnologia farmacêutica, está expandindo seus serviços. Por conta da expansão, o time de gestão necessita da criação de um sistema online, intitulado Pharmacy Central System (PCS), para gerenciamento de depósitos e medicamentos. Por conta da participação no projeto de front-end, o seu perfil chamou a atenção dos gestores, para agora criar o back-end do sistema que deverá ser codificado em Node, utilizando o framework Express.js com o uso do banco de dados PostgreSQL.
 A LABPharmacy Inc deseja criar a API Rest da aplicação Pharmacy Central System (PCS), um software para gestão de depósitos e medicamentos, que será utilizado para o controle de estoque dos medicamentos de hospitais e postos de saúde.
+
+## Yensy API 
+A Yensy API é um aplicativo criado com gratidão e dedicação à minha querida namorada, que ofereceu apoio incondicional durante o desenvolvimento deste projeto avaliativo . A missão da Yensy API é facilitar a gestão de farmácias através de uma interface REST desenvolvida em Javascript, proporcionando uma solução eficiente e confiável para administrar o inventário e os estabelecimentos, esta API esta focada no campo farmacêutico para o gerenciamento de Medicamentos, Usuarios, e Depositos.
+
+- Gestão de Inventário: Mantenha um registro completo dos produtos farmacêuticos disponíveis.
+- Segurança e Autenticação: Garanta a privacidade e a proteção dos dados através de autenticação segura e acesso controlado por JWT.
+- Informações dos Usuarios e Depositos: Armazene informações relevantes dos Usuarios e Depositos os cuais podem ser desativados caso nescesario ou deletados logicamente o que permite garantir a integridade dos registros em caso de deleçao involuntaria.
+
+Esta API representa um sincero agradecimento à minha namorada e a todos aqueles que foram uma fonte de inspiração nesta jornada de desenvolvimento. Juntos, esperamos que a Yensy API simplifique e melhore a gestão de farmácias, contribuindo assim para o bem-estar da comunidade e do setor farmacêutico como um todo. Junte-se à comunidade da Yensy API e descubra uma forma mais eficiente de gerenciar farmácias com facilidade e confiança.
+  
 
 <h2>TECNOLOGIAS UTILIZADAS :</h2>
 <br>
@@ -13,6 +25,10 @@ A LABPharmacy Inc deseja criar a API Rest da aplicação Pharmacy Central System
 </h5>
 <br>
 <br>
+
+## MODELO DA BASE DE DADOS
+
+![BD drawio](https://github.com/Luis-Vilar/Projeto-BackEnd/assets/124309725/059330d8-c9bc-4193-b41c-ff0e48fbf017)
 
 ## COMO EXECUTAR MINHA SOLUÇÃO
 - Dependências a serem instaladas: Git [https://git-scm.com/](https://git-scm.com/), NodeJS [https://nodejs.org/pt-br](https://nodejs.org/pt-br), Yarn [https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable).
