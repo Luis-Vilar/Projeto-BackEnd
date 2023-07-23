@@ -1,7 +1,57 @@
-# Projeto-BackEnd
-FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
+<H1> Projeto-BackEnd</H1>
+<H3>FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo</H3>
 
 
+
+## INTRODUÇÃO
+A LABPharmacy Inc, uma renomada empresa do ramo de tecnologia farmacêutica, está expandindo seus serviços. Por conta da expansão, o time de gestão necessita da criação de um sistema online, intitulado Pharmacy Central System (PCS), para gerenciamento de depósitos e medicamentos. Por conta da participação no projeto de front-end, o seu perfil chamou a atenção dos gestores, para agora criar o back-end do sistema que deverá ser codificado em Node, utilizando o framework Express.js com o uso do banco de dados PostgreSQL.
+A LABPharmacy Inc deseja criar a API Rest da aplicação Pharmacy Central System (PCS), um software para gestão de depósitos e medicamentos, que será utilizado para o controle de estoque dos medicamentos de hospitais e postos de saúde.
+
+## Yensy API 
+A Yensy API é um aplicativo criado com gratidão e dedicação à minha querida namorada, que ofereceu apoio incondicional durante o desenvolvimento deste projeto avaliativo . A missão da Yensy API é facilitar a gestão de farmácias através de uma interface REST desenvolvida em Javascript, proporcionando uma solução eficiente e confiável para administrar o inventário e os estabelecimentos, esta API esta focada no campo farmacêutico para o gerenciamento de Medicamentos, Usuarios, e Depositos.
+
+- Gestão de Inventário: Mantenha um registro completo dos produtos farmacêuticos disponíveis.
+- Segurança e Autenticação: Garanta a privacidade e a proteção dos dados através de autenticação segura e acesso controlado por JWT.
+- Informações dos Usuarios e Depositos: Armazene informações relevantes dos Usuarios e Depositos os cuais podem ser desativados caso nescesario ou deletados logicamente o que permite garantir a integridade dos registros em caso de deleçao involuntaria.
+
+Esta API representa um sincero agradecimento à minha namorada e a todos aqueles que foram uma fonte de inspiração nesta jornada de desenvolvimento. Juntos, esperamos que a Yensy API simplifique e melhore a gestão de farmácias, contribuindo assim para o bem-estar da comunidade e do setor farmacêutico como um todo. Junte-se à comunidade da Yensy API e descubra uma forma mais eficiente de gerenciar farmácias com facilidade e confiança.
+  
+
+<h2>TECNOLOGIAS UTILIZADAS :</h2>
+<br>
+<h5>
+    
+![image](https://img.shields.io/badge/Git-E34F26?style=for-the-badge&logo=git&logoColor=white)![image](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)![image](https://img.shields.io/badge/JavaScript-F7DF1E.svg?style=for-the-badge&logo=JavaScript&logoColor=black)![image](https://img.shields.io/badge/Yarn-2C8EBB.svg?style=for-the-badge&logo=Yarn&logoColor=white)![image](https://img.shields.io/badge/Sequelize-52B0E7.svg?style=for-the-badge&logo=Sequelize&logoColor=white)![image](https://img.shields.io/badge/PostgreSQL-4169E1.svg?style=for-the-badge&logo=PostgreSQL&logoColor=white)![image](https://img.shields.io/badge/JSON%20Web%20Tokens-000000.svg?style=for-the-badge&logo=JSON-Web-Tokens&logoColor=white)![image](https://img.shields.io/badge/Visual%20Studio%20Code-007ACC.svg?style=for-the-badge&logo=Visual-Studio-Code&logoColor=white)
+</h5>
+<br>
+<br>
+
+## MODELO DA BASE DE DADOS
+
+![BD drawio](https://github.com/Luis-Vilar/Projeto-BackEnd/assets/124309725/059330d8-c9bc-4193-b41c-ff0e48fbf017)
+
+## COMO EXECUTAR MINHA SOLUÇÃO
+- Dependências a serem instaladas: Git [https://git-scm.com/](https://git-scm.com/), NodeJS [https://nodejs.org/pt-br](https://nodejs.org/pt-br), Yarn [https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable).
+- Abra um Terminal e clone o projeto: `git clone git@github.com:Luis-Vilar/Projeto-BackEnd.git` [ENTER].
+- Entre na pasta do repositório recém-clonado: `cd Projeto_Backend` [ENTER].
+- Execute o instalador de dependências: `yarn` [ENTER].
+- Você deverá criar um arquivo .env, na raiz da pasta do projeto tem um .env_example; se for de sua preferência, renomeie o mesmo arquivo e modifique as variáveis de ambiente com as corretas para você. Neste ponto, você poderá escolher outra base de dados, mas para este projeto foi utilizado PostgreSQL. As variáveis que deve configurar são `HOST` (endereço da API, por padrão, localhost para executar no seu computador), `DIALECT` (dialeto da BD, exemplo: postgresql), `USERNAMEDB` (nome do usuário da sua base de dados), `PASSWORDDB` (senha do usuário da base de dados), `DATABASE` (nome da base de dados), `JWT_KEY` (chave secreta do JWT). As demais estão com valores padrão; caso ache necessário, sinta-se à vontade para mudá-las.
+- Crie a base de dados com a ferramenta de sua preferência com o mesmo nome declarado na variável `DATABASE` (RECOMENDO DBVEAVER ou PGADMIN para o caso do PostgreSQL).
+- Dentro da pasta do Projeto-Backend, execute: `npx sequelize-cli db:migrate` [ENTER].
+- {OPCIONAL} Caso queira adicionar registros para testes na Base de dados, pode executar a criação de seeders com o seguinte comando no terminal, depois de finalizar as migrations: `npx sequelize-cli db:seed:all` [ENTER].
+- Neste ponto, o servidor deveria estar configurado totalmente. Vamos a iniciá-lo com o seguinte comando: `yarn start` [ENTER].
+- No terminal, deve aparecer a seguinte saída:<br>
+  ```sh
+  ╰─$ yarn start
+  yarn run v1.22.19
+  $ node src/index.js
+  Servidor executando em http://localhost:3000/
+  Executing (default): SELECT 1+1 AS result
+  Conexão com o banco de dados estabelecida com sucesso!
+-  Com algum cliente REST (recomendo THUNDERCLIENT), vamos criar um usuário no endpoint /api/usuarios com o verbo POST. Siga a documentação para este endpoint no S01..
+-  Novamente, utilizando o cliente REST, vamos fazer login com nosso usuário recém-criado no endpoint /api/user/login; este nos devolverá um token que será necessário para os demais endpoints, os quais são privados e devem ser inseridos no Header.Authorization da requisição em nosso cliente REST. Siga a documentação no S02.
+-  Todos os demais endpoints estão especificados na SIGUIENTE DOCUMENTAÇÃO : 
+## DOCUMENTAÇAO DA API 
 # ENDPOINTS USUARIO
 | ENDPOINT                 | VERBO | S## |
 | ------------------------ | ----- | --- |
@@ -15,7 +65,10 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 ## S01 CADASTRO DE USUARIOS
 | req exemplo |
 | ----------- |
-{
+
+ -----| BODY |
+ 
+<code>{
     "nome" : "Nome",
     "sobrenome" : "Sobrenome",
     "data_nascimento" : "9999-12-31",
@@ -23,9 +76,8 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
     "email" : "email@dominio.com",
     "senha" : "Senhafor7&",
     "telefone" : "123456789012345",
-     //opcional "genero" : "genero"
-  }
-
+     //opcional "genero" : "genero
+}</code>
 | res exemplo |
 | ----------- |
 
@@ -34,21 +86,22 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 409 - Conflict  Emails já cadastrado
 
 201 - Created
-{
+<code>{
   "message": "Usuário cadastrado com sucesso",
   "identificador": 1,
   "status": "ativo"
-}
+}</code>
 
 
 ## S02 LOGIN DE USUARIOS
 | req exemplo |
 | ----------- |
 
-{
+ -----| BODY |
+<code>js{
 "email" : "email@dominio.com",
 "senha" : "Senhafor7&"
-}
+}</code>
 
 
 | res exemplo |
@@ -58,10 +111,10 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 404 - Not Found Usuário não encontrado
 
 200 OK 
-{
+<code>{
   "token": "eyJhbGciOiJsdfIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdGF0dXMiOiJhdGl2byIsImlkIjoxNywiaWF0IjoxNjg5OT
   c5NzYwLCJleHAiOjE2OTAwNjYxiiisdfsnkoyueyurwejB9.6rItLA0gs9tJWcjV7HrQ7IYSAn-LIeMgzuDd6iPBKqY"
-}
+}</code>
 
 
 ## S03 ATUALIZAR USUARIO
@@ -73,12 +126,12 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
 //opcional "nome" : "Nome",
 //opcional  "sobrenome" : "sobnome",
 //opcional  "telefone" : "123456789012345",
 //oipcional "genero" : "genero"
-  }
+  }</code>
 
 
 | res exemplo |
@@ -88,7 +141,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 401 - Unauthorized Sem permissão para atualizar este usuário
 
 202 Accepted 
-{
+<code>{
   "message": "Usuário 1 atualizado com sucesso",
   "updated": {
     "nome": "Nome",
@@ -96,7 +149,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
     "genero": "genero",
     "telefone": "123456789012345"
   }
-}
+}</code>
 
 
 ## S04 ATUALIZAR STATUS USUARIO
@@ -108,9 +161,9 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "status" : "ativo"
-}
+}</code>
 
 
 | res exemplo |
@@ -121,9 +174,9 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 401 - Unauthorized Voce nao pode mudar seu status, contate um administrador...
 404 - Not Found Usuário não encontrado
 200 OK
-{
+<code>{
   "message": "Usuario com id 1 atualizado com o status : ativo/inativo"
-}
+}</code>
 
 
 ## S05 ATUALIZAR SENHA USUARIO
@@ -135,9 +188,9 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "senha" : "umaSenham1T0fort@"
-}
+}</code>
 
 
 | res exemplo |
@@ -158,7 +211,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 -----| HEADER |
 | Authorization | token valido gerado no login ver #SO2
  -----| BODY |
-{}
+<code>{}</code>
 
 
 | res exemplo |
@@ -167,7 +220,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 400 - Bad Request  O id X informado não é um número 
 404 - Not Found Usuário não encontrado
 200 OK 
-{
+<code>{
   "id": 1,
   "cpf": "12345678901",
   "nome": "Nome",
@@ -179,7 +232,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
   "status": "ativo",
   "created_at": "2023-07-17T22:26:16.523Z",
   "updated_at": "2023-07-19T18:40:29.946Z"
-}
+}</code>
 
 
 # ENDPOINTS DEPOSITOS
@@ -202,7 +255,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "razao_social": "Razao Social",
   "nome_fantasia": "Nome Fantasia",
   "cnpj": "12312317312332",
@@ -218,7 +271,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
   "complemento": "Complemento ",
   "latitude": "1.234",
   "longitude": "1.234"
-}
+}</code>
 
 
 | res exemplo |
@@ -228,7 +281,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 409 - Conflict CNPJ/Email/Razao Social/Nome Fantasia já cadastrado
 401 - Unauthorized "Usuário não autorizado
 200 - OK 
-{
+<code>{
   "status": "ativo",
   "id": 1,
   "usuario_id": 1,
@@ -251,7 +304,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
   "createdAt": "2023-07-22T00:06:22.115Z",
   "deletedAt": null,
   "usuarioId": 17
-}
+}</code>
 
 
 ## S08 ATUALIZAR DEPOSITO
@@ -263,7 +316,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "nome_fantasia": "Nome Fantasia",
   "celular": "11111111111",
   "telefone": "11111111111",
@@ -276,7 +329,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
   "complemento": null,
   "latitude": 12.345,
   "longitude": 12.345
-}
+}</code>
 
 
 | res exemplo |
@@ -300,9 +353,9 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
 
 
  -----| BODY |
-{
+<code>{
   "status":"ativo"
-}
+}</code>
 
 
 | res exemplo |
@@ -326,8 +379,7 @@ FullStack [Itaguaçu] Módulo 2 - Projeto Avaliativo
  -----| QUERY PARAMS |
 status = inativo/ativo || opcional se não informado devolve todos os depositos
  -----| BODY |
-{
-}
+<code>{}</code>
 
 
 | res exemplo |
@@ -336,21 +388,15 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 400 - Bad Request Status na query params inválido
 401 - Unauthorized Usuario não autorizado
 200 OK
-{
+<code>{
   "depositos_inativo": [],
 }
-
-
-200 OK
 {
   "depositos_ativo": []
 }
-
-
-200 OK
 {
   "depositos_inativo": []
-}
+}</code>
 
 
 ## S11 LISTAR DEPOSITO POR ID
@@ -374,7 +420,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 404 - Not Found Deposito não encontrado 
 
 200 - OK
-{
+<code>{
   "id": 19,
   "status": "ativo",
   "razao_social": "RazaoSocial2",
@@ -397,7 +443,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
     "email": "chaveta@gmail.com",
     "status": "ativo"
   }
-}
+}</code>
 
 
 ## S12 DELETAR DEPOSITO POR ID
@@ -446,7 +492,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 
 
  -----| BODY |
-{
+<code>{
     "nome_medicamento": "Nome",
     "nome_laboratorio" : "Laboratorio",
     "dosagem" : 200,
@@ -455,7 +501,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
     "preco_unitario" : 23.33,
     "descricao" : "Uma descriçao",
     "quantidade" : 600
-  }
+  }</code>
 
 | res exemplo |
 | ----------- |
@@ -464,7 +510,8 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 401 - Unauthorized Usuario não autorizado
 424 - Failed Dependecy Você não tem um deposito cadastrado
 
-200 - OK {
+200 - OK
+<code>{
   "message": "Medicamento cadastrado com sucesso",
   "medicamento": {
     "id": 1,
@@ -487,7 +534,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
     "createdAt": "2023-07-22T01:48:27.755Z",
     "deletedAt": null
   }
-}
+}</code>
 
 ## S14 ATUALIZAR MEDICAMENTO
 | req exemplo |
@@ -498,11 +545,11 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 
 
  -----| BODY |
-{
+<code>{
     "preco_unitario" : 253.33,
     "descricao" : "Uma descriçao",
     "quantidade" : 600
-}
+}</code>
 
 
 | res exemplo |
@@ -513,7 +560,8 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
 401 - Unauthorized Usuário não autorizado
 404 - Not Found Não existe esse medicamento no seu deposito
 
-200 OK{
+200 OK
+<code>{
   "id": 1,
   "nome_medicamento": "Nome",
   "nome_laboratorio": "Laboratorio",
@@ -526,7 +574,7 @@ status = inativo/ativo || opcional se não informado devolve todos os depositos
   "updatedAt": "2023-07-22T01:54:54.684Z",
   "deletedAt": null,
   "quantidade": 600
-}
+}</code>
 
 
 ## S15 LISTAR MEDICAMENTOS
@@ -541,8 +589,7 @@ tipo = controlado/naocontrolado || opcional se não informado devolve todos medi
 
 
  -----| BODY |
-{
-}
+<code>{}</code>
 
 
 | res exemplo |
@@ -563,8 +610,7 @@ um array de medicamentos segundo o tipo
 
 
  -----| BODY |
-{
-}
+<code>{}</code>
 
 
 | res exemplo |
@@ -573,7 +619,8 @@ um array de medicamentos segundo o tipo
 
 400 - Bad Request Requisição com dados inválidos, o id do medicamento deve ser um numero
 404 - Not Found Medicamento não encontrado
-200 - OK {
+200 - OK 
+<code>{
   "id": 1,
   "nome_medicamento": "Medicamento",
   "nome_laboratorio": "Laboratório",
@@ -599,8 +646,7 @@ um array de medicamentos segundo o tipo
       }
     }
   ]
-}
-
+}</code>
 
 ## S17 DELETAR MEDICAMENTO
 | req exemplo |
