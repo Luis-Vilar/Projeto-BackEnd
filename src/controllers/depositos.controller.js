@@ -14,6 +14,11 @@ module.exports = {
       //verificar se o usuario que esta requisitando  esta com status ativo
       await usuarioEstaAtivo(usuario_id, res);
       const body = req.body;
+      //verificar que o usuario não tenha um deposito ya cadastrado
+      if (await estaNaBD(Depositos, "usuario_id", usuario_id)) {
+        res.status(409);
+        throw new Error("Usuário já possui um depósito cadastrado");
+      }
       // Validar se o body da requisição contem os campos necessários para criar um novo depósito
       if (!(await validarBody(body, usuario_id))) {
         res.status(400);
@@ -39,6 +44,7 @@ module.exports = {
         res.status(409);
         throw new Error("Nome Fantasia já cadastrado");
       }
+
 
       //criar novo deposito na db
       const deposito = await Depositos.create(await filtroStore(body, usuario_id));

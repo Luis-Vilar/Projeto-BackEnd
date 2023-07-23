@@ -278,6 +278,7 @@ Esta API representa um sincero agradecimento à minha namorada e a todos aqueles
 | ----------- |
 
 400 - Bad Request Requisição com dados inválidos
+409 - Conflict Usuário já possui um depósito cadastrado
 409 - Conflict CNPJ/Email/Razao Social/Nome Fantasia já cadastrado
 401 - Unauthorized "Usuário não autorizado
 200 - OK 
