@@ -30,6 +30,12 @@ Esta API representa um sincero agradecimento à minha namorada e a todos aqueles
 
 ![BD drawio](https://github.com/Luis-Vilar/Projeto-BackEnd/assets/124309725/059330d8-c9bc-4193-b41c-ff0e48fbf017)
 
+
+
+[IMPLEMENTAÇAO](https://github.com/Luis-Vilar/Projeto-BackEnd/assets/124309725/3a7a68b6-b49d-455a-9ff2-671ae3ecdd10)
+
+
+
 ## COMO EXECUTAR MINHA SOLUÇÃO
 - Dependências a serem instaladas: Git [https://git-scm.com/](https://git-scm.com/), NodeJS [https://nodejs.org/pt-br](https://nodejs.org/pt-br), Yarn [https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable](https://classic.yarnpkg.com/lang/en/docs/install/#debian-stable).
 - Abra um Terminal e clone o projeto: `git clone git@github.com:Luis-Vilar/Projeto-BackEnd.git` [ENTER].
