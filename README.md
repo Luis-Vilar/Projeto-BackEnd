@@ -56,7 +56,30 @@ Esta API representa um sincero agradecimento à minha namorada e a todos aqueles
 -  Com algum cliente REST (recomendo THUNDERCLIENT), vamos criar um usuário no endpoint /api/usuarios com o verbo POST. Siga a documentação para este endpoint no S01..
 -  Novamente, utilizando o cliente REST, vamos fazer login com nosso usuário recém-criado no endpoint /api/user/login; este nos devolverá um token que será necessário para os demais endpoints, os quais são privados e devem ser inseridos no Header.Authorization da requisição em nosso cliente REST. Siga a documentação no S02.
 -  Todos os demais endpoints estão especificados na SIGUIENTE DOCUMENTAÇÃO : 
-## DOCUMENTAÇAO DA API 
+# DOCUMENTAÇAO DA API 
+
+No S03,  Adicionei um código 401 : só permiti alterar dados do próprio usuário e não de outros.
+ Era pedido também uma resposta 201 com os dados atualizados, mas coloquei 202 para poder enviar uma mensagem de sucesso.
+
+No S04, adicionei o código 401 caso o usuário queira alterar seu próprio estado, o que não faria sentido se tivesse 
+sido desativado por um admin que ele consiga fazer, a mesma coisa se estiver inativo e quiser alterar o estado de outro usuário.
+
+No S05, adicionei o código 401 caso o usuário queira alterar a senha de outro usuário e não a sua própria.
+
+No S07, adicionei o código 409 caso exista o email, que não estava pedido inicialmente, mas achei interessante 
+não permitir dois estabelecimentos com o mesmo email.
+
+No S10, adicionei o código 400 caso o query param seja inválido.
+
+No S13, pedia o código 409 caso existam medicamentos duplicados, mas achei interessante permitir e que a quantidade
+incremente com a que está no depósito de medicamentos ja que a tabela medicamentos e compartida com todos os estabelecimentos
+e a propriedade nome e uma unique.
+
+No S14, Adicionei um código 404 caso o medicamento não exista no deposito_medicamentos, só poderá atualizar medicamentos que existem em seu depósito, caso o usuario quera alterar primeiro devera cadastrar o medicamento no seu deposito.
+
+S17, código 401 caso o usuário tente deletar medicamentos que ainda estão relacionados a pelo menos um depósito.
+
+
 # ENDPOINTS USUARIO
 | ENDPOINT                 | VERBO | S## |
 | ------------------------ | ----- | --- |
