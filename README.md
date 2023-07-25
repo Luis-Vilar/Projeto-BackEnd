@@ -15,6 +15,10 @@ A Yensy API é um aplicativo criado com gratidão e dedicação à minha querida
 - Informações dos Usuarios e Depositos: Armazene informações relevantes dos Usuarios e Depositos os cuais podem ser desativados caso nescesario ou deletados logicamente o que permite garantir a integridade dos registros em caso de deleçao involuntaria.
 
 Esta API representa um sincero agradecimento à minha namorada e a todos aqueles que foram uma fonte de inspiração nesta jornada de desenvolvimento. Juntos, esperamos que a Yensy API simplifique e melhore a gestão de farmácias, contribuindo assim para o bem-estar da comunidade e do setor farmacêutico como um todo. Junte-se à comunidade da Yensy API e descubra uma forma mais eficiente de gerenciar farmácias com facilidade e confiança.
+
+# VISITE A DEMO ! cyclic +  elephantsql 
+
+https://real-pink-trout-sock.cyclic.app/
   
 
 <h2>TECNOLOGIAS UTILIZADAS :</h2>
