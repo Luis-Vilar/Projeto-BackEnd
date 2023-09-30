@@ -146,19 +146,6 @@ module.exports = {
       // Listar todos os depósitos ativos ou inativos segundo o status seja passado por query params
       const depositos = await Depositos.findAll({
         where: status_pesquisado,
-        attributes: [
-          "id",
-          "razao_social",
-          "cnpj",
-          "telefone",
-          "email",
-          "celular",
-          "cep",
-          "logradouro",
-          "numero",
-          "cidade",
-          "estado",
-        ],
         include: {
           association: "usuario",
           attributes: ["nome", "email", "status"],

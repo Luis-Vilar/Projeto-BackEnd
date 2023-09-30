@@ -56,15 +56,15 @@ const Depositos = connection.define(
         },
       },
     },
-    cep: { type: Sequelize.STRING(20) },
-    logradouro: { type: Sequelize.STRING(20) },
-    numero: { type: Sequelize.STRING(20) },
-    bairro: { type: Sequelize.STRING(20) },
-    cidade: { type: Sequelize.STRING(20) },
-    estado: { type: Sequelize.STRING(20) },
-    complemento: { type: Sequelize.STRING(20) },
+    cep: { type: Sequelize.STRING},
+    logradouro: { type: Sequelize.STRING },
+    numero: { type: Sequelize.STRING },
+    bairro: { type: Sequelize.STRING },
+    cidade: { type: Sequelize.STRING },
+    estado: { type: Sequelize.STRING},
+    complemento: { type: Sequelize.STRING },
     latitude: {
-      type: Sequelize.STRING(20),
+      type: Sequelize.STRING,
       validate: {
         isNumeric: {
           args: true,
@@ -73,7 +73,7 @@ const Depositos = connection.define(
       }
     },
     longitude: {
-      type: Sequelize.STRING(20),
+      type: Sequelize.STRING,
       validate: {
         isNumeric: {
           args: true,

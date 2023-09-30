@@ -1,5 +1,6 @@
 // dependencias
 const express = require("express");
+const cors = require("cors");
 const { config } = require("dotenv");
 const morgan = require("morgan");
 config();
@@ -10,6 +11,9 @@ class Server {
   // constructor de classe
   constructor(app = express()) {
     app.use(morgan('dev'));
+    app.use(cors(
+      
+    ));
 
     this.router(app);
     this.database();
